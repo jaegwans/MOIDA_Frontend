@@ -14,4 +14,3 @@ const Global = createGlobalStyle`
 `;
 
 export default Global;
-å;
