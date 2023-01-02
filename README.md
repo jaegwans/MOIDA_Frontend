@@ -2,7 +2,12 @@
 
 ## 폴더구조
 
-src>components,libs,pages
+-   src
+    -   compoenets
+    -   hooks
+    -   libs
+    -   pages
+-   styles
 
 ## 라이브러리
 
