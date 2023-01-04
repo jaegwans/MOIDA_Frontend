@@ -23,6 +23,9 @@ const Login = () => {
 
     const _onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (idData === '' || pwData === '') {
+            alert('아이디, 비밀번호 값을 입력해주세요.');
+        }
         axios
             .post('/login', {
                 username: idData,
