@@ -25,21 +25,24 @@ const Login = () => {
         e.preventDefault();
         if (idData === '' || pwData === '') {
             alert('아이디, 비밀번호 값을 입력해주세요.');
-        }
-        axios
-            .post('/login', {
-                username: idData,
-                password: pwData,
-            })
-            .then((res) => {
-                console.log(res.data);
-                router.push('./');
-            })
-            .catch((e) => {
-                console.log(e.response.status);
+        } else {
+            axios
+                .post('/login', {
+                    username: idData,
+                    password: pwData,
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    router.push('./');
+                })
+                .catch((e) => {
+                    console.log(e.response.status);
 
-                alert('아이디나 비밀번호가 틀립니다. Err:' + e.response.status);
-            });
+                    alert(
+                        '아이디나 비밀번호가 틀립니다. Err:' + e.response.status
+                    );
+                });
+        }
     };
 
     return (
