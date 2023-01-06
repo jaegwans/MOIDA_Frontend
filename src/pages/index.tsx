@@ -5,14 +5,14 @@ import { json } from "stream/consumers";
 import useToken from "../hooks/useToken";
 
 export default function Home() {
-  const { aToken } = useToken();
+  const { fullToken } = useToken();
 
-  console.log(aToken + "-Token");
+  console.log(fullToken + "-Token");
 
   return (
     <>
       <h2>moida</h2>
-      <p>{aToken}</p>
+      <p>{fullToken}</p>
     </>
   );
 }

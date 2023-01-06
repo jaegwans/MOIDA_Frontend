@@ -33,6 +33,7 @@ const Login = () => {
                 })
                 .then((res) => {
                     console.log(res.data);
+                    localStorage.setItem('grantType', res.data.grantType);
                     localStorage.setItem('accessToken', res.data.accessToken);
 
                     //렌 테스터기 ,렌선 긴거, 케이블,커터
