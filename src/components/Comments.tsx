@@ -11,7 +11,7 @@ const Comments = () => {
                 />
                 <button type="submit">댓글 작성</button>
             </StyledInputBox>
-            <StyledComments>comments</StyledComments>
+            <StyledComments>comment example</StyledComments>
         </StyledCommentBox>
     );
 };
@@ -26,7 +26,7 @@ const StyledCommentBox = styled.div`
     button {
         all: unset;
         align-self: flex-end;
-        margin-right: 10%;
+        margin-right: 0%;
         color: white;
         background-color: #12b886;
         padding: 6px 15px;
@@ -39,7 +39,7 @@ const StyledCommentBox = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-    width: 80%;
+    width: 100%;
     margin: 10px;
     border: 1px solid #f1f3f5;
     min-height: 100px;
