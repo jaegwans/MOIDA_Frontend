@@ -23,20 +23,29 @@ const Login = () => {
 
     const _onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios
-            .post('/login', {
-                username: idData,
-                password: pwData,
-            })
-            .then((res) => {
-                console.log(res.data);
-                router.push('./');
-            })
-            .catch((e) => {
-                console.log(e.response.status);
+        if (idData === '' || pwData === '') {
+            alert('아이디, 비밀번호 값을 입력해주세요.');
+        } else {
+            axios
+                .post('/login', {
+                    username: idData,
+                    password: pwData,
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    localStorage.setItem('accessToken', res.data.accessToken);
 
-                alert('아이디나 비밀번호가 틀립니다. Err:' + e.response.status);
-            });
+                    //렌 테스터기 ,렌선 긴거, 케이블,커터
+                    router.push('./');
+                })
+                .catch((e) => {
+                    console.log(e.response.status);
+
+                    alert(
+                        '아이디나 비밀번호가 틀립니다. Err:' + e.response.status
+                    );
+                });
+        }
     };
 
     return (
@@ -76,7 +85,6 @@ const StyledLogin = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-
     box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
         0 8px 16px -8px rgba(0, 0, 0, 0.3),
         0 -6px 16px -6px rgba(0, 0, 0, 0.025);
