@@ -123,11 +123,9 @@ const RegisterBox = styled.div`
   width: 300px;
   height: 500px;
   margin-top: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px; ;
 `;
@@ -135,7 +133,6 @@ const RegisterBox = styled.div`
 const RegisterList = styled.form`
   display: flex;
   flex-direction: column;
-
   gap: 20px;
 `;
 
@@ -155,6 +152,6 @@ const SubmitBtn = styled.button`
   }
   :active {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px inset,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px inset;
+      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px inset;
   }
 `;
