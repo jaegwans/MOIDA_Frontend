@@ -33,6 +33,9 @@ const Login = () => {
                 })
                 .then((res) => {
                     console.log(res.data);
+                    localStorage.setItem('accessToken', res.data.accessToken);
+
+                    //렌 테스터기 ,렌선 긴거, 케이블,커터
                     router.push('./');
                 })
                 .catch((e) => {
