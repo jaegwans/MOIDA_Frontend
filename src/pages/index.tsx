@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { json } from 'stream/consumers';
+import Comments from '../components/Comments';
+import Link from 'next/link';
 
 type account = string | null;
 
@@ -16,7 +18,7 @@ export default function Home() {
     return (
         <>
             <h2>moida</h2>
-            <p>{aToken}</p>
+            <Comments />
         </>
     );
 }
