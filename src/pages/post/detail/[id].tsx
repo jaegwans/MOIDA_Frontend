@@ -85,9 +85,12 @@ const StyledDetail = styled.div`
         0 4px 8px -4px rgba(0, 0, 0, 0.3), 0 -3px 8px -3px rgba(0, 0, 0, 0.025);
     flex-direction: column;
     justify-content: space-between;
+
     @media screen and (max-width: 768px) {
         width: 95vw;
         margin: 0px;
+        box-shadow: none;
+        padding: 4rem 0px;
     }
 `;
 
@@ -123,8 +126,6 @@ const StyledChips = styled.div`
         background: #ccc;
     }
 `;
-const StyledCommentsBox = styled.div`
-    justify-items: flex-end;
-`;
+const StyledCommentsBox = styled.div``;
 
 export default Detail;

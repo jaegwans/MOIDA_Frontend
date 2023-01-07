@@ -35,6 +35,9 @@ const StyledCommentBox = styled.div`
         &:hover {
             background-color: #3dc59c;
         }
+        @media screen and (max-width: 768px) {
+            font-size: 1.2rem;
+        }
     }
 `;
 
@@ -53,6 +56,9 @@ const StyledTextArea = styled.textarea`
     white-space: pre-wrap;
     overflow-wrap: break-word;
     appearance: auto;
+    @media screen and (max-width: 768px) {
+        font-size: 1.3rem;
+    }
 `;
 
 const StyledInputBox = styled.form`
