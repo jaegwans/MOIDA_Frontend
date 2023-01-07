@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import styled from 'styled-components';
-import Comments from '../../components/Comments';
+import Comments from '../../../components/Comments';
 
 interface IPost {
     id: string;
