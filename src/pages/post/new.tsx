@@ -153,4 +153,11 @@ const InputListDiv = styled.div`
     gap: 20px;
 `;
 
-const BtnDiv = styled.div``;
+const BtnDiv = styled.div`
+    button {
+        all:unset
+    }
+    a{
+        all: unset;
+    }
+`;
