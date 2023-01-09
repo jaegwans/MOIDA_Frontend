@@ -1,24 +1,175 @@
-import React from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
-const Comments = () => {
+interface IPostInfo {
+    postId: number;
+}
+interface IComment {
+    id: number;
+    writer: string;
+    context: string;
+    parentCommentId: number | null;
+    childComments: IComment[] | null;
+}
+
+// 대댓글 컴포넌트
+const RepleCommnets = (props: { data: IComment }) => {
+    const data: IComment = props.data;
     return (
-        <StyledCommentBox>
-            <StyledInputBox>
+        <StyledComment className="repleBar">
+            <div className="info">
+                <b>{data.writer}</b>
+            </div>
+            <div className="context">{data.context}</div>
+        </StyledComment>
+    );
+};
+
+//댓글 컴포넌트
+const Comment = (props: { key: number; data: IComment }) => {
+    const data: IComment = props.data;
+    const [openReple, setOpenReple] = useState(false);
+    return (
+        <StyledComment>
+            <div className="info">
+                <b>{data.writer}</b>
+            </div>
+            <div className="context">{data.context}</div>
+
+            <div className="reple">
+                {openReple ? (
+                    <>
+                        {data.childComments?.map((rData) => (
+                            <RepleCommnets key={rData.id} data={rData} />
+                        ))}
+                        <StyledInputBox>
+                            <StyledTextArea
+                                placeholder="댓글을 작성하세요."
+                                spellCheck="false"
+                            />
+                            <div className="repleOption">
+                                <div onClick={() => setOpenReple(false)}>
+                                    <b className="greenButton">^ 답글 닫기</b>
+                                </div>
+                                <button type="submit">답글 작성</button>
+                            </div>
+                        </StyledInputBox>
+                    </>
+                ) : (
+                    <div onClick={() => setOpenReple(true)}>
+                        <b className="greenButton">
+                            + 답글 달기{' '}
+                            {data.childComments
+                                ? '[' + data.childComments?.length + '개]'
+                                : null}
+                        </b>
+                    </div>
+                )}
+            </div>
+        </StyledComment>
+    );
+};
+
+//댓글 메인 컴포넌트
+const Comments = ({ postId }: IPostInfo) => {
+    const [comments, setComments] = useState<IComment[]>();
+    const [commentValue, setCommentValue] = useState<string>('');
+
+    const getComments = () => {
+        axios
+            .get(`/post/${postId}/comments`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            })
+            .then((data) => {
+                setComments(data.data);
+            })
+            .catch((e) => {
+                alert(e);
+            });
+    };
+    useEffect(getComments, []);
+
+    const onClickCommentButton = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios
+            .post(
+                `/post/${postId}/comments/new`,
+                {
+                    postId: 1,
+                    writer: 'moida01',
+                    context: commentValue,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'accessToken'
+                        )}`,
+                    },
+                }
+            )
+            .then(() => {
+                getComments();
+                setCommentValue('');
+                alert('댓글 작성 완료');
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const onChangeComment = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setCommentValue(e.currentTarget.value);
+    };
+
+    return (
+        <StyledCommentsBox>
+            <StyledInputBox onSubmit={(e) => onClickCommentButton(e)}>
                 <StyledTextArea
+                    value={commentValue}
+                    onChange={(e) => onChangeComment(e)}
                     placeholder="댓글을 작성하세요."
                     spellCheck="false"
                 />
                 <button type="submit">댓글 작성</button>
             </StyledInputBox>
-            <StyledComments>comment example</StyledComments>
-        </StyledCommentBox>
+            <StyledComments>
+                {comments?.map((data) => (
+                    <Comment key={data.id} data={data} />
+                ))}
+            </StyledComments>
+        </StyledCommentsBox>
     );
 };
 
 export default Comments;
 
-const StyledCommentBox = styled.div`
+const StyledComment = styled.div`
+    display: flex;
+    min-height: 7.5rem;
+    border-bottom: 1px solid #f1f3f5;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+    .repleBar {
+        border-top: 1px solid #f1f3f5;
+    }
+
+    .reple {
+    }
+    .context {
+        min-height: 6.25rem;
+        display: flex;
+        align-items: center;
+    }
+`;
+
+const StyledCommentsBox = styled.div`
     display: flex;
 
     flex-direction: column;
@@ -39,6 +190,7 @@ const StyledCommentBox = styled.div`
             font-size: 1.2rem;
         }
     }
+    width: 100%;
 `;
 
 const StyledTextArea = styled.textarea`
@@ -67,6 +219,17 @@ const StyledInputBox = styled.form`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    .repleOption {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
 `;
 
-const StyledComments = styled.div``;
+const StyledComments = styled.div`
+    width: 100%;
+    .greenButton {
+        color: #12b886;
+        cursor: pointer;
+    }
+`;
