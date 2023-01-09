@@ -59,7 +59,6 @@ const New = () => {
                 }
             )
             .then((res) => {
-                // console.log(res.data);
                 router.push("/post/list");
                 alert("작성을 성공했습니다");
             })
