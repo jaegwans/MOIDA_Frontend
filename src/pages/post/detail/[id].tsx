@@ -44,7 +44,7 @@ const Detail = () => {
         };
         // 라우터 로딩 지연 이슈
         ready ? getPost() : null;
-    }, [ready]);
+    }, [id, ready]);
 
     //<p>{JSON.stringify(post)}</p>
     //"id":3,"author":"test01","title":"third post!","type":"team_project","context":"this is context of third post in MOIDA!"
