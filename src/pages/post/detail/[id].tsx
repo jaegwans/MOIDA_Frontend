@@ -23,8 +23,7 @@ const Detail = () => {
     useEffect(() => {
         console.log(ready);
         const getPost = () => {
-            const TOKEN =
-                'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDIiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjczMDc5NjI1fQ.LAHhqAfMYzjU7hL5uKpEOGC6HJt2ud059ReKIN-9_Lk';
+            const TOKEN = localStorage.getItem('accessToken');
 
             axios
                 .get(`/post/${id}`, {
@@ -65,7 +64,7 @@ const Detail = () => {
                         <StyledContext>{post.context}</StyledContext>
                     </div>
                     <StyledCommentsBox>
-                        <Comments />
+                        <Comments postId={Number(id)} />
                     </StyledCommentsBox>
                 </StyledDetail>
             ) : (

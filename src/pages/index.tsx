@@ -18,7 +18,6 @@ export default function Home() {
     return (
         <>
             <h2>moida</h2>
-            <Comments />
         </>
     );
 }
