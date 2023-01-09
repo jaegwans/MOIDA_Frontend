@@ -21,35 +21,6 @@ const Login = () => {
     setPwData(e.target.value);
   };
 
-<<<<<<< HEAD
-    const _onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (idData === '' || pwData === '') {
-            alert('아이디, 비밀번호 값을 입력해주세요.');
-        } else {
-            axios
-                .post('/login', {
-                    username: idData,
-                    password: pwData,
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    localStorage.setItem('grantType', res.data.grantType);
-                    localStorage.setItem('accessToken', res.data.accessToken);
-
-                    //렌 테스터기 ,렌선 긴거, 케이블,커터
-                    router.push('./');
-                })
-                .catch((e) => {
-                    console.log(e.response.status);
-
-                    alert(
-                        '아이디나 비밀번호가 틀립니다. Err:' + e.response.status
-                    );
-                });
-        }
-    };
-=======
   const _onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (idData === "" || pwData === "") {
@@ -69,7 +40,6 @@ const Login = () => {
         })
         .catch((e) => {
           console.log(e);
->>>>>>> 540372dae7a77141af74eb3fcd2ba347a726d136
 
           alert("아이디나 비밀번호가 틀립니다. Err:" + e.response.status);
         });
@@ -107,18 +77,6 @@ const Login = () => {
   );
 };
 const StyledLogin = styled.div`
-<<<<<<< HEAD
-    width: 300px;
-    height: 500px;
-    margin-top: 3.125rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-        0 8px 16px -8px rgba(0, 0, 0, 0.3),
-        0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-    flex-direction: column;
-=======
   width: 300px;
   height: 500px;
   margin-top: 3.125rem;
@@ -129,7 +87,6 @@ const StyledLogin = styled.div`
   box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
     0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
   flex-direction: column;
->>>>>>> 540372dae7a77141af74eb3fcd2ba347a726d136
 `;
 const StyledForm = styled.form`
   display: flex;

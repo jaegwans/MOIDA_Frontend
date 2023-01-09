@@ -154,10 +154,20 @@ const InputListDiv = styled.div`
 `;
 
 const BtnDiv = styled.div`
+    margin-top: 10px;
     button {
-        all:unset
+        all: unset;
+        margin: 20px;
+        padding: 5px;
+        font-size: 15px;
+        color: #000;
+        transition: transform 0.3s;
+        &:hover {
+            transform: translateY(-3px);
+            cursor: pointer;
+        }
     }
-    a{
+    a {
         all: unset;
     }
 `;
