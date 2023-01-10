@@ -12,6 +12,10 @@ interface IComment {
     parentCommentId: number | null;
     childComments: IComment[] | null;
 }
+interface IUser {
+    username: string;
+    nickname: string;
+}
 
 // 대댓글 컴포넌트
 const RepleCommnets = (props: { data: IComment }) => {
@@ -147,6 +151,22 @@ const Comment = (props: {
 const Comments = ({ postId }: IPostInfo) => {
     const [comments, setComments] = useState<IComment[]>();
     const [commentValue, setCommentValue] = useState<string>('');
+    const [userData, setUserData] = useState<IUser>();
+    //유저 정보 조회
+    const getUser = async () => {
+        await axios
+            .get(`/user`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            })
+            .then((data) => setUserData(data.data))
+            .catch((e) => {
+                console.log(e);
+            });
+    };
 
     const getComments = () => {
         axios
@@ -164,16 +184,20 @@ const Comments = ({ postId }: IPostInfo) => {
                 alert(e);
             });
     };
-    useEffect(getComments, []);
+    useEffect(() => {
+        getComments();
+        getUser();
+    }, []);
     //댓글 작성 함수
     const onClickCommentButton = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         axios
             .post(
                 `/post/${postId}/comments/new`,
                 {
                     postId: 1,
-                    writer: 'moida01',
+                    writer: userData?.username,
                     context: commentValue,
                 },
                 {
