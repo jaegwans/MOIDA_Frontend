@@ -27,16 +27,38 @@ const RepleCommnets = (props: { data: IComment }) => {
 };
 
 //댓글 컴포넌트
-const Comment = (props: { key: number; data: IComment }) => {
+const Comment = (props: {
+    key: number;
+    data: IComment;
+    postId: any;
+    getComments: any;
+    commentId: any;
+}) => {
     const data: IComment = props.data;
     const [openReple, setOpenReple] = useState(false);
+    const onClickCommentDelete = () => {
+        axios
+            .delete(`/post/${props.postId}/comments/${props.commentId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            })
+            .then((data) => {
+                console.log(data);
+                props.getComments();
+            })
+            .catch((e) => console.log(e));
+    };
+
     return (
         <StyledComment>
             <div className="info">
                 <b>{data.writer}</b>
                 <div className="deleteAndUpdate">
-                    <div>삭제</div>
                     <div>수정</div>
+                    <div onClick={onClickCommentDelete}>삭제</div>
                 </div>
             </div>
             <div className="context">{data.context}</div>
@@ -97,7 +119,7 @@ const Comments = ({ postId }: IPostInfo) => {
             });
     };
     useEffect(getComments, []);
-
+    //댓글 작성 함수
     const onClickCommentButton = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios
@@ -143,7 +165,13 @@ const Comments = ({ postId }: IPostInfo) => {
             </StyledInputBox>
             <StyledComments>
                 {comments?.map((data) => (
-                    <Comment key={data.id} data={data} />
+                    <Comment
+                        key={data.id}
+                        commentId={data.id}
+                        data={data}
+                        getComments={getComments}
+                        postId={postId}
+                    />
                 ))}
             </StyledComments>
         </StyledCommentsBox>
@@ -166,6 +194,11 @@ const StyledComment = styled.div`
         .deleteAndUpdate {
             display: flex;
             color: gray;
+            gap: 10px;
+            margin-right: 30px;
+            div {
+                cursor: pointer;
+            }
         }
     }
     .repleBar {

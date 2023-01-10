@@ -37,6 +37,10 @@ const Detail = () => {
                 })
                 .catch((e) => {
                     alert('게시글 조회 실패');
+                    if (TOKEN === null) {
+                        router.push('/signIn');
+                        alert('로그인 후 게시글 조회가 가능합니다.');
+                    }
                     console.log(TOKEN);
                     console.log(e);
                 });
