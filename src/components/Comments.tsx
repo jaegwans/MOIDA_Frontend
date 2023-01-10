@@ -34,6 +34,10 @@ const Comment = (props: { key: number; data: IComment }) => {
         <StyledComment>
             <div className="info">
                 <b>{data.writer}</b>
+                <div className="deleteAndUpdate">
+                    <div>삭제</div>
+                    <div>수정</div>
+                </div>
             </div>
             <div className="context">{data.context}</div>
 
@@ -156,6 +160,14 @@ const StyledComment = styled.div`
     flex-direction: column;
     justify-content: space-between;
     padding: 1.5rem;
+    .info {
+        display: flex;
+        justify-content: space-between;
+        .deleteAndUpdate {
+            display: flex;
+            color: gray;
+        }
+    }
     .repleBar {
         border-top: 1px solid #f1f3f5;
     }
