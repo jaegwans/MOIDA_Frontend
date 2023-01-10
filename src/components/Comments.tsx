@@ -36,6 +36,34 @@ const Comment = (props: {
 }) => {
     const data: IComment = props.data;
     const [openReple, setOpenReple] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [editValue, setEditValue] = useState('');
+    const onChangeEdit = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setEditValue(e.currentTarget.value);
+    };
+    const onSubmitEdit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios
+            .patch(
+                `/post/${props.postId}/comments/${props.commentId}`,
+                {
+                    context: editValue,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'accessToken'
+                        )}`,
+                    },
+                }
+            )
+            .then((data) => {
+                console.log(data);
+                props.getComments();
+                setOpenEdit(false);
+            })
+            .catch((e) => console.log(e));
+    };
     const onClickCommentDelete = () => {
         axios
             .delete(`/post/${props.postId}/comments/${props.commentId}`, {
@@ -57,11 +85,29 @@ const Comment = (props: {
             <div className="info">
                 <b>{data.writer}</b>
                 <div className="deleteAndUpdate">
-                    <div>수정</div>
+                    <div onClick={() => setOpenEdit(!openEdit)}>수정</div>
                     <div onClick={onClickCommentDelete}>삭제</div>
                 </div>
             </div>
             <div className="context">{data.context}</div>
+
+            <div className="reple">
+                {openEdit ? (
+                    <>
+                        <StyledInputBox onSubmit={onSubmitEdit}>
+                            <StyledTextArea
+                                placeholder="댓글을 수정하세요."
+                                spellCheck="false"
+                                value={editValue}
+                                onChange={onChangeEdit}
+                            />
+                            <div className="editOption">
+                                <button type="submit">수정 전송</button>
+                            </div>
+                        </StyledInputBox>
+                    </>
+                ) : null}
+            </div>
 
             <div className="reple">
                 {openReple ? (
@@ -268,6 +314,11 @@ const StyledInputBox = styled.form`
         display: flex;
         justify-content: space-between;
         width: 100%;
+    }
+    .editOption {
+        display: flex;
+        justify-content: flex-end;
+        width: 95%;
     }
 `;
 
