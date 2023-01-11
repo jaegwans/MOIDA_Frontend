@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import styled from 'styled-components';
 import Comments from '../../../components/Comments';
+import useUser from '../../../libs/useUser';
 
 interface IPost {
     id: string;
@@ -17,8 +18,23 @@ const Detail = () => {
     console.log(router.query.id);
     const { id } = router.query;
     let ready = router.isReady;
+    const { user } = useUser();
 
     const [post, setPost] = useState<IPost | never>();
+
+    const onClickDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+        const TOKEN = localStorage.getItem('accessToken');
+        axios
+            .delete(`/post/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then(() => {
+                router.push('/');
+            })
+            .catch((e) => console.log(e));
+    };
 
     useEffect(() => {
         console.log(ready);
@@ -57,7 +73,14 @@ const Detail = () => {
                 <StyledDetail>
                     <div>
                         <StyledInfo>
-                            <h1>{post.title}</h1>
+                            {user?.username === post.author ? (
+                                <div className="postHeader">
+                                    <h1>{post.title}</h1>
+                                    <div onClick={onClickDelete}>삭제</div>
+                                </div>
+                            ) : (
+                                <h1>{post.title}</h1>
+                            )}
                             <div>
                                 <div>
                                     <b>{post.author}</b>
@@ -100,6 +123,14 @@ const StyledDetail = styled.div`
 const StyledInfo = styled.div`
     display: flex;
     flex-direction: column;
+    .postHeader {
+        display: flex;
+        justify-content: space-between;
+        div {
+            color: #646464;
+            cursor: pointer;
+        }
+    }
     h1 {
         font-weight: 400;
         font-size: 2.75rem;
