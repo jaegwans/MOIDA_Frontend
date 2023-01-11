@@ -59,7 +59,7 @@ const New = () => {
                 }
             )
             .then((res) => {
-                router.push("/post/list");
+                router.push("/postlist");
                 alert("작성을 성공했습니다");
             })
             .catch((error) => {
@@ -94,7 +94,7 @@ const New = () => {
                 </InputListDiv>
                 <BtnDiv>
                     <button type="submit">작성하기</button>
-                    <Link href={"/post/list"}>
+                    <Link href={"/postlist"}>
                         <button>뒤로가기</button>
                     </Link>
                 </BtnDiv>
