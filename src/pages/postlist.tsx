@@ -24,9 +24,9 @@ const Postist = () => {
                     Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb2lkYTAxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzUxODEyOX0.pVVI4zfdHBYf3wJ0DN_wtAJ_1wRo8fNY-HZxN7yUMY8`,
                 },
             })
-            .then((data) => {
-                console.log(data.data);
-                setPosts(data.data);
+            .then((res) => {
+                console.log(res.data);
+                setPosts(res.data);
                 console.log(fullToken);
             })
             .catch((e) => {
