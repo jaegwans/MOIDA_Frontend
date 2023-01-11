@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import styled from 'styled-components';
 import Comments from '../../../components/Comments';
+import useUser from '../../../libs/useUser';
 
 interface IPost {
     id: string;
@@ -17,14 +18,28 @@ const Detail = () => {
     console.log(router.query.id);
     const { id } = router.query;
     let ready = router.isReady;
+    const { user } = useUser();
 
     const [post, setPost] = useState<IPost | never>();
+
+    const onClickDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+        const TOKEN = localStorage.getItem('accessToken');
+        axios
+            .delete(`/post/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then(() => {
+                router.push('/');
+            })
+            .catch((e) => console.log(e));
+    };
 
     useEffect(() => {
         console.log(ready);
         const getPost = () => {
-            const TOKEN =
-                'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDIiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjczMDc5NjI1fQ.LAHhqAfMYzjU7hL5uKpEOGC6HJt2ud059ReKIN-9_Lk';
+            const TOKEN = localStorage.getItem('accessToken');
 
             axios
                 .get(`/post/${id}`, {
@@ -38,6 +53,10 @@ const Detail = () => {
                 })
                 .catch((e) => {
                     alert('게시글 조회 실패');
+                    if (TOKEN === null) {
+                        router.push('/signIn');
+                        alert('로그인 후 게시글 조회가 가능합니다.');
+                    }
                     console.log(TOKEN);
                     console.log(e);
                 });
@@ -54,7 +73,14 @@ const Detail = () => {
                 <StyledDetail>
                     <div>
                         <StyledInfo>
-                            <h1>{post.title}</h1>
+                            {user?.username === post.author ? (
+                                <div className="postHeader">
+                                    <h1>{post.title}</h1>
+                                    <div onClick={onClickDelete}>삭제</div>
+                                </div>
+                            ) : (
+                                <h1>{post.title}</h1>
+                            )}
                             <div>
                                 <div>
                                     <b>{post.author}</b>
@@ -65,7 +91,7 @@ const Detail = () => {
                         <StyledContext>{post.context}</StyledContext>
                     </div>
                     <StyledCommentsBox>
-                        <Comments />
+                        <Comments postId={Number(id)} />
                     </StyledCommentsBox>
                 </StyledDetail>
             ) : (
@@ -97,6 +123,14 @@ const StyledDetail = styled.div`
 const StyledInfo = styled.div`
     display: flex;
     flex-direction: column;
+    .postHeader {
+        display: flex;
+        justify-content: space-between;
+        div {
+            color: #646464;
+            cursor: pointer;
+        }
+    }
     h1 {
         font-weight: 400;
         font-size: 2.75rem;
