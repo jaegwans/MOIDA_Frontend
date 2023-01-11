@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import useUser from '../libs/useUser';
 
 interface IPostInfo {
     postId: number;
@@ -18,14 +19,88 @@ interface IUser {
 }
 
 // 대댓글 컴포넌트
-const RepleCommnets = (props: { data: IComment }) => {
+const RepleCommnets = (props: {
+    key: number;
+    data: IComment;
+    postId: any;
+    getComments: any;
+}) => {
+    const [openEdit, setOpenEdit] = useState(false);
+    const [editValue, setEditValue] = useState('');
+    const { user } = useUser();
     const data: IComment = props.data;
+    const onChangeEdit = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setEditValue(e.currentTarget.value);
+    };
+
+    const onClickCommentDelete = () => {
+        axios
+            .delete(`/post/${props.postId}/comments/${props.data.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            })
+            .then((data) => {
+                console.log(data);
+                props.getComments();
+            })
+            .catch((e) => console.log(e));
+    };
+
+    const onSubmitEdit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios
+            .patch(
+                `/post/${props.postId}/comments/${props.data.id}`,
+                {
+                    context: editValue,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'accessToken'
+                        )}`,
+                    },
+                }
+            )
+            .then((data) => {
+                console.log(data);
+                props.getComments();
+                setOpenEdit(false);
+            })
+            .catch((e) => console.log(e));
+    };
     return (
         <StyledComment className="repleBar">
             <div className="info">
                 <b>{data.writer}</b>
+                {user?.username === data.writer ? (
+                    <div className="deleteAndUpdate">
+                        <div onClick={() => setOpenEdit(!openEdit)}>수정</div>
+                        <div onClick={onClickCommentDelete}>삭제</div>
+                    </div>
+                ) : null}
             </div>
             <div className="context">{data.context}</div>
+            <div className="reple">
+                {openEdit ? (
+                    <>
+                        <StyledInputBox onSubmit={onSubmitEdit}>
+                            <StyledTextArea
+                                placeholder="댓글을 수정하세요."
+                                spellCheck="false"
+                                value={editValue}
+                                onChange={onChangeEdit}
+                            />
+                            <div className="editOption">
+                                <button type="submit">수정 전송</button>
+                            </div>
+                        </StyledInputBox>
+                    </>
+                ) : null}
+            </div>
         </StyledComment>
     );
 };
@@ -37,14 +112,52 @@ const Comment = (props: {
     postId: any;
     getComments: any;
     commentId: any;
+    userData: any;
 }) => {
     const data: IComment = props.data;
     const [openReple, setOpenReple] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [editValue, setEditValue] = useState('');
+    const [repleValue, setrepleValue] = useState('');
+    const { user } = useUser();
     const onChangeEdit = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setEditValue(e.currentTarget.value);
     };
+    const onChangeReple = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setrepleValue(e.currentTarget.value);
+    };
+
+    //리플 작성
+    const onClickRepleButton = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        axios
+            .post(
+                `/post/${props.postId}/comments/new`,
+                {
+                    writer: props.userData.username,
+                    context: repleValue,
+                    parentCommentId: data.id,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'accessToken'
+                        )}`,
+                    },
+                }
+            )
+            .then(() => {
+                props.getComments();
+                setrepleValue('');
+                alert('답글 작성 완료');
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    //댓글 수정
     const onSubmitEdit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios
@@ -88,10 +201,12 @@ const Comment = (props: {
         <StyledComment>
             <div className="info">
                 <b>{data.writer}</b>
-                <div className="deleteAndUpdate">
-                    <div onClick={() => setOpenEdit(!openEdit)}>수정</div>
-                    <div onClick={onClickCommentDelete}>삭제</div>
-                </div>
+                {user?.username === data.writer ? (
+                    <div className="deleteAndUpdate">
+                        <div onClick={() => setOpenEdit(!openEdit)}>수정</div>
+                        <div onClick={onClickCommentDelete}>삭제</div>
+                    </div>
+                ) : null}
             </div>
             <div className="context">{data.context}</div>
 
@@ -117,12 +232,19 @@ const Comment = (props: {
                 {openReple ? (
                     <>
                         {data.childComments?.map((rData) => (
-                            <RepleCommnets key={rData.id} data={rData} />
+                            <RepleCommnets
+                                key={rData.id}
+                                data={rData}
+                                postId={props.postId}
+                                getComments={props.getComments}
+                            />
                         ))}
-                        <StyledInputBox>
+                        <StyledInputBox onSubmit={onClickRepleButton}>
                             <StyledTextArea
-                                placeholder="댓글을 작성하세요."
+                                placeholder="답글을 작성하세요."
                                 spellCheck="false"
+                                value={repleValue}
+                                onChange={onChangeReple}
                             />
                             <div className="repleOption">
                                 <div onClick={() => setOpenReple(false)}>
@@ -152,6 +274,7 @@ const Comments = ({ postId }: IPostInfo) => {
     const [comments, setComments] = useState<IComment[]>();
     const [commentValue, setCommentValue] = useState<string>('');
     const [userData, setUserData] = useState<IUser>();
+
     //유저 정보 조회
     const getUser = async () => {
         await axios
@@ -196,7 +319,6 @@ const Comments = ({ postId }: IPostInfo) => {
             .post(
                 `/post/${postId}/comments/new`,
                 {
-                    postId: 1,
                     writer: userData?.username,
                     context: commentValue,
                 },
@@ -241,6 +363,7 @@ const Comments = ({ postId }: IPostInfo) => {
                         data={data}
                         getComments={getComments}
                         postId={postId}
+                        userData={userData}
                     />
                 ))}
             </StyledComments>
