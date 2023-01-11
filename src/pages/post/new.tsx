@@ -2,12 +2,13 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
+import { json } from "stream/consumers";
 import styled from "styled-components";
 import useToken from "../../hooks/useToken";
 
 const New = () => {
     //post 헤더에 들어갈 토큰
-    const { fullToken } = useToken();
+    // const { fullToken } = useToken();
     // 게시글 작성 후 list로 넘겨줄 라우터
     const router = useRouter();
     // 타이틀
@@ -17,15 +18,18 @@ const New = () => {
     // 글 내용
     const [context, setContext] = useState<string>("");
 
-    console.log(fullToken);
-
     const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        // console.log(e.target.value);     
+        // console.log(title);
         setTitle(e.target.value);
+        
     };
     const onchangeType = (e: ChangeEvent<HTMLInputElement>) => {
+        // console.log(e.target.value);
         setType(e.target.value);
     };
     const onchangeContext = (e: ChangeEvent<HTMLInputElement>) => {
+        // console.log(e.target.value);
         setContext(e.target.value);
     };
 
@@ -44,21 +48,25 @@ const New = () => {
     const onSubmitNewPost = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const TOKEN = localStorage.getItem("accessToken");
+        let data = {
+            title: title,
+            type: type,
+            context: context,
+        };
+        // console.log(data.title);
+        // console.log(data.type);
+        // console.log(data.context);
         axios
-            .post(
-                "/post/new",
-                {
-                    title: title,
-                    type: type,
-                    context: context,
+            .post("/post/new", JSON.stringify(data), {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                    "Content-Type": `application/json`,
                 },
-                {
-                    headers: {
-                        Authorization: fullToken,
-                    },
-                }
-            )
+            })
             .then((res) => {
+                console.log(res.data);
+
                 router.push("/postlist");
                 alert("작성을 성공했습니다");
             })
