@@ -28,8 +28,6 @@ const Postist = () => {
                 console.log(data.data);
                 setPosts(data.data);
                 console.log(fullToken);
-                
-                
             })
             .catch((e) => {
                 alert(e);
