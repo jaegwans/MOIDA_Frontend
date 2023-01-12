@@ -4,7 +4,9 @@ import { useEffect, useState, MouseEvent } from 'react';
 import styled from 'styled-components';
 import useToken from '../../hooks/useToken';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navigator from '../../components/Navigator';
+import MyPage from '../mypage';
 
 interface Post {
     id: string;
@@ -24,6 +26,7 @@ const Postist = () => {
     // 덕분에 아래 eachPost에서 에러뜸 근데 작동은 함
     // 해결방법: Post뒤에 []해서 배열 처리를 해주면 된다.
     const [posts, setPosts] = useState<Post[]>([]);
+    const [mypage, setMypage] = useState(false);
 
     useEffect(() => {
         // async await을 써도 되는데 router에서 제공하는 ready를 사용
@@ -35,7 +38,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/type/study', {
+                    .get('/post/type/project', {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -49,35 +52,61 @@ const Postist = () => {
                     });
             };
             getPostList();
+            if (localStorage.getItem('accessToken') === null) {
+                setMypage(false);
+            } else {
+                setMypage(true);
+            }
         }
     }, [ready]);
 
     const newPostRouter = () => {
-        router.push('/post/new');
+        if (localStorage.getItem('accessToken') === null) {
+            alert('로그인 후 이용하세요.');
+            router.push('/signIn');
+        } else {
+            router.push('/post/new');
+        }
     };
 
     // MouseEvent를 사용하지않고 편법으로 하는 방법이 있었네요~
 
     const commentRouter = (e: String) => {
-        console.log(e);
-        router.push(`/post/detail/${e}`);
+        if (localStorage.getItem('accessToken') === null) {
+            alert('로그인 후 이용하세요.');
+            router.push('/signIn');
+        } else {
+            console.log(e);
+            router.push(`/post/detail/${e}`);
+        }
     };
 
     return (
         <ListMain>
             <ImgDiv>
+                <div></div>
                 <Image
                     alt={'moidaLogo'}
                     src={'/moida.png'}
                     width={290}
                     height={80}
                 ></Image>
+                <div className="status">
+                    {mypage ? (
+                        <div onClick={() => router.push('/mypage')}>
+                            마이페이지
+                        </div>
+                    ) : (
+                        <div onClick={() => router.push('/signIn')}>로그인</div>
+                    )}
+                </div>
             </ImgDiv>
+
             <TopDiv>
-                <PostLostH1>스터디 모임</PostLostH1>
+                <Navigator pick="study" />
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
-            <Navigator pick="study" />
+
             <div>
                 {posts !== undefined ? (
                     <CardList>
@@ -108,21 +137,27 @@ export default Postist;
 const ListMain = styled.div`
     display: flex;
     flex-direction: column;
-
     margin: 30px;
 `;
 
 const ImgDiv = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 40px;
+    width: 100%;
+    .status {
+        cursor: pointer;
+        div {
+            cursor: pointer;
+        }
+    }
 `;
 
 const TopDiv = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
 
     margin-bottom: 20px;
@@ -137,10 +172,10 @@ const PostLostH1 = styled.h1`
 `;
 
 const PostBtnDiv = styled.div`
-    margin: 10px;
+    display: flex;
     padding: 10px;
     width: 100px;
-    text-align: center;
+    justify-content: center;
 
     border-radius: 5px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
