@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, MouseEvent, useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 import useUser from "../../../libs/useUser";
+import Image from "next/image";
 
 interface PostData {
     id: number;
@@ -72,7 +73,7 @@ const PostPatch = () => {
     const onChangePatchType = (e: ChangeEvent<HTMLInputElement>) => {
         setPatchType(e.currentTarget.value);
     };
-    const onChangePatchContext = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangePatchContext = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setPatchContext(e.currentTarget.value);
     };
     const onClickTypeData = (e: MouseEvent<HTMLInputElement>) => {
@@ -110,73 +111,115 @@ const PostPatch = () => {
             });
     };
     return (
-        <PatchPost>
-            <h2>게시글 수정</h2>
-            <PatchPostList onSubmit={onClickPatch}>
-                <InputListDiv>
-                    <InPutDiv
-                        type="text"
-                        placeholder={patchData?.title}
-                        onChange={onChangePatchTitle}
-                        value={patchTitle}
-                    />
-                    <ChipsList>
-                        <ChipsInput
+        <div>
+            <StyledTop>
+                <Image
+                    src={"/Group 1.svg"}
+                    alt={"moidaLogd"}
+                    width={290}
+                    height={80}
+                ></Image>
+                <div></div>
+            </StyledTop>
+            <PatchPost>
+                <h2>게시글 수정</h2>
+                <PatchPostList onSubmit={onClickPatch}>
+                    <InputListDiv>
+                        <InPutDiv
                             type="text"
-                            placeholder="MEAL"
-                            value={"MEAL"}
-                            onClick={onClickTypeData}
+                            placeholder={patchData?.title}
+                            onChange={onChangePatchTitle}
+                            value={patchTitle}
                         />
-                        <ChipsInput
-                            type="text"
-                            placeholder="PROJECT"
-                            value={"PROJECT"}
-                            onClick={onClickTypeData}
+                        <ChipsList>
+                            <ChipsInput
+                                type="text"
+                                placeholder="MEAL"
+                                value={"MEAL"}
+                                onClick={onClickTypeData}
+                            />
+                            <ChipsInput
+                                type="text"
+                                placeholder="PROJECT"
+                                value={"PROJECT"}
+                                onClick={onClickTypeData}
+                            />
+                            <ChipsInput
+                                type="text"
+                                placeholder="STUDY"
+                                value={"STUDY"}
+                                onClick={onClickTypeData}
+                            />
+                        </ChipsList>
+                        <StyledTextArea
+                            placeholder={patchData?.context}
+                            onChange={onChangePatchContext}
+                            value={patchContext}
                         />
-                        <ChipsInput
-                            type="text"
-                            placeholder="STUDY"
-                            value={"STUDY"}
-                            onClick={onClickTypeData}
-                        />
-                    </ChipsList>
-                    <InPutDiv
-                        type="text"
-                        placeholder={patchData?.context}
-                        onChange={onChangePatchContext}
-                        value={patchContext}
-                    />
-                </InputListDiv>
-                <StyledBtn>
-                    <Link href={`/post/detail/${id}`}>
-                        <button> 뒤로가기</button>
-                    </Link>
-                    <button type="submit">수정완료</button>
-                </StyledBtn>
-            </PatchPostList>
-        </PatchPost>
+                    </InputListDiv>
+                    <StyledBtn>
+                        <Link href={`/post/detail/${id}`}>
+                            <button> 뒤로가기</button>
+                        </Link>
+                        <button type="submit">수정완료</button>
+                    </StyledBtn>
+                </PatchPostList>
+            </PatchPost>
+        </div>
     );
 };
 
 export default PostPatch;
 
-const PatchPost = styled.div`
-    width: 300px;
-    height: 500px;
-    margin-top: 50px;
+const StyledTop = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-evenly;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
-        rgba(0, 0, 0, 0.3) 0px 8px 16px -8px; ;
+
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    width: 80vw;
+`;
+
+const PatchPost = styled.div`
+    display: flex;
+    width: 70vw;
+    margin: 0 3rem 3rem 3rem;
+    padding: 4rem;
+    box-shadow: 0 7px 13px -2px rgba(50, 50, 93, 0.25),
+        0 4px 8px -4px rgba(0, 0, 0, 0.3), 0 -3px 8px -3px rgba(0, 0, 0, 0.025);
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media screen and (max-width: 768px) {
+        width: 95vw;
+        margin: 0px;
+        box-shadow: none;
+        padding: 4rem 0px;
+    }
+    h2 {
+        margin-bottom: 50px;
+    }
 `;
 
 const PatchPostList = styled.form`
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    :nth-child(1) {
+        align-items: center;
+    }
 `;
+
+const InputListDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+`;
+
 const InPutDiv = styled.input`
     all: unset;
     border-bottom: 2px solid #eee;
@@ -184,10 +227,12 @@ const InPutDiv = styled.input`
     padding: 5px 0px;
 `;
 
-const InputListDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+const StyledTextArea = styled.textarea`
+    all: unset;
+    border-bottom: 2px solid #eee;
+    font-size: 15px;
+    padding: 5px 0px;
+    min-height: 30rem;
 `;
 
 const ChipsList = styled.div`
@@ -212,6 +257,8 @@ const ChipsInput = styled.input`
 `;
 
 const StyledBtn = styled.div`
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
     margin-left: 15px;
     button {
