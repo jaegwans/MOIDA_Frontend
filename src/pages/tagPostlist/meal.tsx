@@ -4,7 +4,7 @@ import { useEffect, useState, MouseEvent } from 'react';
 import styled from 'styled-components';
 import useToken from '../../hooks/useToken';
 import Image from 'next/image';
-import Navigator from '../../components/navigator';
+import Navigator from '../../components/Navigator';
 
 interface Post {
     id: string;
