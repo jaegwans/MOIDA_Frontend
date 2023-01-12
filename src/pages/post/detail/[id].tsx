@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState, MouseEvent } from "react";
-import { useRouter } from "next/router";
-import axios from "axios";
-import styled from "styled-components";
-import Comments from "../../../components/Comments";
-import useUser from "../../../libs/useUser";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useEffect, useRef, useState, MouseEvent } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import styled from 'styled-components';
+import Comments from '../../../components/Comments';
+import useUser from '../../../libs/useUser';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface IPost {
     id: string;
     author: string;
-    nickname: string;
     title: string;
     context: string;
     type: string;
@@ -28,7 +27,7 @@ const Detail = () => {
     const [post, setPost] = useState<IPost | never>();
 
     const onClickDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-        const TOKEN = localStorage.getItem("accessToken");
+        const TOKEN = localStorage.getItem('accessToken');
         axios
             .delete(`/post/${id}`, {
                 headers: {
@@ -36,7 +35,7 @@ const Detail = () => {
                 },
             })
             .then(() => {
-                router.push("/");
+                router.push('/');
             })
             .catch((e) => console.log(e));
     };
@@ -49,7 +48,7 @@ const Detail = () => {
     useEffect(() => {
         console.log(ready);
         const getPost = () => {
-            const TOKEN = localStorage.getItem("accessToken");
+            const TOKEN = localStorage.getItem('accessToken');
 
             axios
                 .get(`/post/${id}`, {
@@ -62,10 +61,10 @@ const Detail = () => {
                     setPost(data.data);
                 })
                 .catch((e) => {
-                    alert("게시글 조회 실패");
+                    alert('게시글 조회 실패');
                     if (TOKEN === null) {
-                        router.push("/signIn");
-                        alert("로그인 후 게시글 조회가 가능합니다.");
+                        router.push('/signIn');
+                        alert('로그인 후 게시글 조회가 가능합니다.');
                     }
                     console.log(TOKEN);
                     console.log(e);
@@ -81,13 +80,13 @@ const Detail = () => {
         <div>
             <StyledTop>
                 <Image
-                    src={"/Group 1.svg"}
-                    alt={"moidaLogd"}
+                    src={'/Group 1.svg'}
+                    alt={'moidaLogd'}
                     width={290}
                     height={80}
                 ></Image>
                 <BtnAndUser>
-                    <Link href={"/postlist"}>
+                    <Link href={'/postlist'}>
                         <button>뒤로가기</button>
                     </Link>
                     <UserChip>{post?.nickname}</UserChip>
