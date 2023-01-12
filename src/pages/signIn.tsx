@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 // interface ISignIn {
 //     username: string;
@@ -50,8 +51,12 @@ const Login = () => {
     return (
         <StyledLogin>
             <div>
-                <h2>Moida</h2>
-                <p>즉석 팀 빌딩 서비스</p>
+                <Image
+                    alt={'moidaLogo'}
+                    src={'/moida.png'}
+                    width={190}
+                    height={60}
+                ></Image>
             </div>
             <StyledForm onSubmit={_onSubmit}>
                 <input
@@ -95,7 +100,7 @@ const StyledForm = styled.form`
     flex-direction: column;
     input {
         all: unset;
-        border-bottom: 2px solid #eee;
+        border-bottom: 2px solid #be9fe1;
         font-size: 15px;
         padding: 5px 0px;
     }
