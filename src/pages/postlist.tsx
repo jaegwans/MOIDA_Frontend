@@ -85,7 +85,6 @@ const Postist = () => {
     return (
         <ListMain>
             <ImgDiv>
-                <div></div>
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
@@ -108,7 +107,7 @@ const Postist = () => {
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
 
-            <div>
+            <TotlaCard>
                 {posts !== undefined ? (
                     <CardList>
                         {posts.map((eachPost) => (
@@ -129,7 +128,7 @@ const Postist = () => {
                 ) : (
                     <p>Loading...</p>
                 )}
-            </div>
+            </TotlaCard>
         </ListMain>
     );
 };
@@ -145,7 +144,7 @@ const ImgDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     width: 100%;
     .status {
         cursor: pointer;
@@ -181,9 +180,18 @@ const PostBtnDiv = styled.div`
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
 `;
 
+const TotlaCard = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+
+`;
+
 const CardList = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
     width: 1000px;
 `;
@@ -191,9 +199,10 @@ const CardList = styled.div`
 const CardDiv = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
     padding: 20px;
     gap: 10px;
-    width: 250px;
+    width: 280px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
