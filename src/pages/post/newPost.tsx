@@ -1,10 +1,10 @@
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { FormEvent, ChangeEvent, useState } from "react";
-import { json } from "stream/consumers";
-import styled from "styled-components";
-import useToken from "../../hooks/useToken";
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FormEvent, ChangeEvent, useState } from 'react';
+import { json } from 'stream/consumers';
+import styled from 'styled-components';
+import useToken from '../../hooks/useToken';
 
 const New = () => {
     //post 헤더에 들어갈 토큰
@@ -12,11 +12,11 @@ const New = () => {
     // 게시글 작성 후 list로 넘겨줄 라우터
     const router = useRouter();
     // 타이틀
-    const [title, setTitle] = useState<string>("");
+    const [title, setTitle] = useState<string>('');
     // 타입
-    const [type, setType] = useState<string>("");
+    const [type, setType] = useState<string>('');
     // 글 내용
-    const [context, setContext] = useState<string>("");
+    const [context, setContext] = useState<string>('');
 
     const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         // console.log(e.target.value);
@@ -34,40 +34,43 @@ const New = () => {
 
     const errorAlert = () => {
         if (title.length == 0) {
-            return alert("제목을 입력해 주세요");
+            return alert('제목을 입력해 주세요');
         }
         if (type.length == 0) {
-            return alert("태그를 입력해 주세요");
+            return alert('태그를 입력해 주세요');
         }
         if (context.length == 0) {
-            return alert("내용을 입력해 주세요");
+            return alert('내용을 입력해 주세요');
         }
     };
 
     const onSubmitNewPost = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const TOKEN = localStorage.getItem("accessToken");
+        const TOKEN = localStorage.getItem('accessToken');
         // console.log(data.title);
         // console.log(data.type);
         // console.log(data.context);
         axios
-            .post("/post/new", {
-                headers: {
-                    Authorization: `Bearer ${TOKEN}`,
-                    "Content-Type": `application/json`,
-                },
-                body: {
+            .post(
+                '/post/new',
+                {
                     title: title,
                     type: type,
                     context: context,
                 },
-            })
+                {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                        'Content-Type': `application/json`,
+                    },
+                }
+            )
             .then((res) => {
                 console.log(res.data);
 
-                router.push("/postlist");
-                alert("작성을 성공했습니다");
+                router.push('/postlist');
+                alert('작성을 성공했습니다');
             })
             .catch((error) => {
                 console.log(error);
@@ -101,7 +104,7 @@ const New = () => {
                 </InputListDiv>
                 <BtnDiv>
                     <button type="submit">작성하기</button>
-                    <Link href={"/postlist"}>
+                    <Link href={'/postlist'}>
                         <button>뒤로가기</button>
                     </Link>
                 </BtnDiv>
