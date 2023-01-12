@@ -86,9 +86,9 @@ const Detail = () => {
                     height={80}
                 ></Image>
                 <BtnAndUser>
-                    <Link href={'/postlist'}>
-                        <button>뒤로가기</button>
-                    </Link>
+                    <div className="back">
+                        <Link href={'/postlist'}>뒤로가기</Link>
+                    </div>
                     <UserChip>{post?.nickname}</UserChip>
                 </BtnAndUser>
             </StyledTop>
@@ -147,12 +147,11 @@ const BtnAndUser = styled.div`
     flex-direction: row;
     gap: 50px;
 
-    button {
+    .back {
         all: unset;
-        margin: 20px;
-        padding: 5px;
-        font-size: 15px;
-        color: #000;
+        margin-top: 20px;
+        margin-right: 20px;
+        font-size: 20px;
         transition: transform 0.3s;
         &:hover {
             transform: translateY(-3px);
@@ -165,14 +164,14 @@ const BtnAndUser = styled.div`
 `;
 
 const UserChip = styled.div`
-    background: rgba(231, 211, 255, 10);
-    padding: 5px 15px; //왼 위 오 아래
-    border-radius: 32px;
-    font-size: 26px;
+    color: #c9b6e4;
+    margin-top: 20px;
+    margin-right: 20px;
+    font-size: 20px;
     text-align: center;
     &:hover {
         cursor: default;
-        background: #c9b6e4;
+        color: rgba(231, 211, 255, 10);
     }
 `;
 

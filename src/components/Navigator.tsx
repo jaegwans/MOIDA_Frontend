@@ -14,7 +14,9 @@ const Navigator = ({ pick }: any) => {
                     href="/postlist"
                     id="postlist"
                     style={
-                        pick == 'postlist' ? { backgroundColor: '#c9b6e4' } : {}
+                        pick == 'postlist'
+                            ? { backgroundColor: '#9e72dd', color: '#fff' }
+                            : {}
                     }
                 >
                     전체
@@ -23,7 +25,9 @@ const Navigator = ({ pick }: any) => {
                     href="/tagPostlist/project"
                     id="project"
                     style={
-                        pick == 'project' ? { backgroundColor: '#c9b6e4' } : {}
+                        pick == 'project'
+                            ? { backgroundColor: '#9e72dd', color: '#fff' }
+                            : {}
                     }
                 >
                     프로젝트
@@ -32,7 +36,9 @@ const Navigator = ({ pick }: any) => {
                     href="/tagPostlist/study"
                     id="study"
                     style={
-                        pick == 'study' ? { backgroundColor: '#c9b6e4' } : {}
+                        pick == 'study'
+                            ? { backgroundColor: '#9e72dd', color: '#fff' }
+                            : {}
                     }
                 >
                     스터디
@@ -40,7 +46,11 @@ const Navigator = ({ pick }: any) => {
                 <Link
                     href="/tagPostlist/meal"
                     id="meal"
-                    style={pick == 'meal' ? { backgroundColor: '#c9b6e4' } : {}}
+                    style={
+                        pick == 'meal'
+                            ? { backgroundColor: '#9e72dd', color: '#fff' }
+                            : {}
+                    }
                 >
                     밥
                 </Link>
