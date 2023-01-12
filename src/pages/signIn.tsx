@@ -53,7 +53,7 @@ const Login = () => {
             <div>
                 <Image
                     alt={'moidaLogo'}
-                    src={'/Group1.svg'}
+                    src={'/moida.png'}
                     width={190}
                     height={60}
                 ></Image>
@@ -105,7 +105,7 @@ const StyledForm = styled.form`
 
         border-radius: 6px;
         font-size: 15px;
-        padding: 5px 2px;
+        padding: 5px 5px;
         margin-top: 10px;
     }
 `;

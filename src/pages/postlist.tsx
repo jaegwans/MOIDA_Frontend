@@ -76,7 +76,7 @@ const Postist = () => {
             </ImgDiv>
 
             <TopDiv>
-                <PostLostH1>post list</PostLostH1>
+                <PostLostH1>전체게시판</PostLostH1>
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
             <Navigator pick="postlist" />
@@ -126,7 +126,7 @@ const TopDiv = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid rgba(190, 159, 225, 10);
 `;

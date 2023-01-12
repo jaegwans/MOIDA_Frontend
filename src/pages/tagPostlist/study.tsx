@@ -74,7 +74,7 @@ const Postist = () => {
                 ></Image>
             </ImgDiv>
             <TopDiv>
-                <PostLostH1>Study list</PostLostH1>
+                <PostLostH1>스터디 모임</PostLostH1>
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
             <Navigator pick="study" />
@@ -125,7 +125,7 @@ const TopDiv = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid rgba(190, 159, 225, 10);
 `;

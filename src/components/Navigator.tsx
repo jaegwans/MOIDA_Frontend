@@ -6,10 +6,10 @@ const Navigator = ({ pick }: any) => {
     return (
         <StyledTags>
             <div className="tagbox">
-                <Link href="/postlist">Home</Link>
-                <Link href="/tagPostlist/project">Project</Link>
-                <Link href="/tagPostlist/study">Study</Link>
-                <Link href="/tagPostlist/meal">Meal</Link>
+                <Link href="/postlist">전체</Link>
+                <Link href="/tagPostlist/project">프로젝트</Link>
+                <Link href="/tagPostlist/study">스터디</Link>
+                <Link href="/tagPostlist/meal">밥</Link>
             </div>
         </StyledTags>
     );
@@ -31,5 +31,5 @@ const StyledTags = styled.div`
             cursor: pointer;
         }
     }
-    margin: 5px;
+    margin: 5px 5px 20px 5px;
 `;
