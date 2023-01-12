@@ -14,12 +14,13 @@ export default function Home() {
     useEffect(() => {
         setAToken(localStorage.getItem('accessToken'));
         console.log(aToken);
-        if (localStorage.getItem('accessToken') === null) {
-            console.log(localStorage.getItem('accesss'));
-            router.push('/signIn');
-        } else {
-            router.push('/postlist');
-        }
+        router.push('/postlist');
+        // if (localStorage.getItem('accessToken') === null) {
+        //     console.log(localStorage.getItem('accesss'));
+        //     router.push('/signIn');
+        // } else {
+
+        // }
     }, []);
 
     console.log(aToken + '-Token');

@@ -2,11 +2,11 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState, MouseEvent } from 'react';
 import styled from 'styled-components';
-import useToken from '../hooks/useToken';
+import useToken from '../../hooks/useToken';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navigator from '../components/Navigator';
-import MyPage from './mypage';
+import Navigator from '../../components/Navigator';
+import MyPage from '../mypage';
 
 interface Post {
     id: string;
@@ -14,7 +14,6 @@ interface Post {
     title: string;
     context: string;
     type: string;
-    nickname: string;
     createdDate: string;
 }
 
@@ -39,7 +38,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/list', {
+                    .get('/post/type/project', {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -88,7 +87,7 @@ const Postist = () => {
                 <div></div>
                 <Image
                     alt={'moidaLogo'}
-                    src={'/Group 1.svg'}
+                    src={'/moida.png'}
                     width={290}
                     height={80}
                 ></Image>
@@ -104,7 +103,7 @@ const Postist = () => {
             </ImgDiv>
 
             <TopDiv>
-                <Navigator pick="postlist" />
+                <Navigator pick="project" />
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
 
@@ -119,7 +118,7 @@ const Postist = () => {
                                 <h1>{eachPost.title}</h1>
                                 <AuthorTypeDiv>
                                     <h5>{eachPost.type}</h5>
-                                    <h3>{eachPost.nickname}</h3>
+                                    <h3>{eachPost.author}</h3>
                                 </AuthorTypeDiv>
                                 {/* <p>{eachPost.context}</p> */}
                                 <span>{eachPost.createdDate.slice(2, 10)}</span>
@@ -184,8 +183,11 @@ const PostBtnDiv = styled.div`
 `;
 
 const CardList = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
 
     width: 1000px;
@@ -202,13 +204,6 @@ const CardDiv = styled.div`
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        font-size: 26px;
-
         padding-bottom: 10px;
         margin-bottom: 20px;
         border-bottom: 2px solid rgba(190, 159, 225, 10);

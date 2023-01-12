@@ -13,6 +13,7 @@ interface IComment {
     parentCommentId: number | null;
     childComments: IComment[] | null;
     createdDate: string;
+    nickname: string;
 }
 interface IUser {
     username: string;
@@ -76,7 +77,7 @@ const RepleCommnets = (props: {
     return (
         <StyledComment className="repleBar">
             <div className="info">
-                <b>{data.writer}</b>
+                <b>{data.nickname}</b>
                 {user?.username === data.writer ? (
                     <div className="deleteAndUpdate">
                         <div onClick={() => setOpenEdit(!openEdit)}>수정</div>
@@ -202,7 +203,7 @@ const Comment = (props: {
     return (
         <StyledComment>
             <div className="info">
-                <b>{data.writer}</b>
+                <b>{data.nickname}</b>
                 {user?.username === data.writer ? (
                     <div className="deleteAndUpdate">
                         <div onClick={() => setOpenEdit(!openEdit)}>수정</div>

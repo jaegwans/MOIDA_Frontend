@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 // interface ISignIn {
 //     username: string;
@@ -35,10 +36,10 @@ const Login = () => {
                     console.log(res.data);
                     localStorage.setItem('accessToken', res.data.accessToken);
 
-          router.push("/postlist");
-        })
-        .catch((e) => {
-          console.log(e);
+                    router.push('/postlist');
+                })
+                .catch((e) => {
+                    console.log(e);
 
                     alert(
                         '아이디나 비밀번호가 틀립니다. Err:' + e.response.status
@@ -50,8 +51,12 @@ const Login = () => {
     return (
         <StyledLogin>
             <div>
-                <h2>Moida</h2>
-                <p>즉석 팀 빌딩 서비스</p>
+                <Image
+                    alt={'moidaLogo'}
+                    src={'/moida.png'}
+                    width={190}
+                    height={60}
+                ></Image>
             </div>
             <StyledForm onSubmit={_onSubmit}>
                 <input
@@ -95,9 +100,13 @@ const StyledForm = styled.form`
     flex-direction: column;
     input {
         all: unset;
-        border-bottom: 2px solid #eee;
+
+        border: 1.3px solid #be9fe1;
+
+        border-radius: 6px;
         font-size: 15px;
-        padding: 5px 0px;
+        padding: 5px 5px;
+        margin-top: 10px;
     }
 `;
 
