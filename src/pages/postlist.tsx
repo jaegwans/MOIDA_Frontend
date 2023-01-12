@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useEffect, useState, MouseEvent } from 'react';
-import styled from 'styled-components';
-import useToken from '../hooks/useToken';
-import Image from 'next/image';
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState, MouseEvent } from "react";
+import styled from "styled-components";
+import useToken from "../hooks/useToken";
+import Image from "next/image";
 
 interface Post {
     id: string;
@@ -31,10 +31,10 @@ const Postist = () => {
         // ready 가 true일때
         if (ready) {
             const getPostList = () => {
-                const TOKEN = localStorage.getItem('accessToken');
+                const TOKEN = localStorage.getItem("accessToken");
 
                 axios
-                    .get('/post/list', {
+                    .get("/post/list", {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -52,7 +52,7 @@ const Postist = () => {
     }, [ready]);
 
     const newPostRouter = () => {
-        router.push('/post/newPost');
+        router.push("/post/newPost");
     };
 
     // MouseEvent를 사용하지않고 편법으로 하는 방법이 있었네요~
@@ -66,8 +66,8 @@ const Postist = () => {
         <ListMain>
             <ImgDiv>
                 <Image
-                    alt={'moidaLogo'}
-                    src={'/moida.png'}
+                    alt={"moidaLogo"}
+                    src={"/Group 1.svg"}
                     width={290}
                     height={80}
                 ></Image>
@@ -146,11 +146,8 @@ const PostBtnDiv = styled.div`
 `;
 
 const CardList = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 
     width: 1000px;
@@ -167,6 +164,13 @@ const CardDiv = styled.div`
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        font-size: 26px;
+
         padding-bottom: 10px;
         margin-bottom: 20px;
         border-bottom: 2px solid rgba(190, 159, 225, 10);
