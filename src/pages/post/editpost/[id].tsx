@@ -20,7 +20,6 @@ const PostPatch = () => {
     const { user } = useUser();
 
     const [patchData, setPatchData] = useState<PostData>();
-    console.log(patchData?.title);
 
     const [patchTitle, setPatchTitle] = useState<string>("");
 
@@ -76,6 +75,11 @@ const PostPatch = () => {
     const onChangePatchContext = (e: ChangeEvent<HTMLInputElement>) => {
         setPatchContext(e.currentTarget.value);
     };
+    const onClickTypeData = (e: MouseEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log(e.currentTarget.value);
+        setPatchType(e.currentTarget.value);
+    };
 
     // console.log(user?.username);
     const onClickPatch = (e: FormEvent<HTMLFormElement>) => {
@@ -107,22 +111,36 @@ const PostPatch = () => {
     };
     return (
         <PatchPost>
-            <h2>수정화면</h2>
+            <h2>게시글 수정</h2>
             <PatchPostList onSubmit={onClickPatch}>
                 <InputListDiv>
-                    <input
+                    <InPutDiv
                         type="text"
                         placeholder={patchData?.title}
                         onChange={onChangePatchTitle}
                         value={patchTitle}
                     />
-                    <input
-                        type="text"
-                        placeholder={patchData?.type}
-                        onChange={onChangePatchType}
-                        value={patchType}
-                    />
-                    <input
+                    <ChipsList>
+                        <ChipsInput
+                            type="text"
+                            placeholder="MEAL"
+                            value={"MEAL"}
+                            onClick={onClickTypeData}
+                        />
+                        <ChipsInput
+                            type="text"
+                            placeholder="PROJECT"
+                            value={"PROJECT"}
+                            onClick={onClickTypeData}
+                        />
+                        <ChipsInput
+                            type="text"
+                            placeholder="STUDY"
+                            value={"STUDY"}
+                            onClick={onClickTypeData}
+                        />
+                    </ChipsList>
+                    <InPutDiv
                         type="text"
                         placeholder={patchData?.context}
                         onChange={onChangePatchContext}
@@ -158,12 +176,12 @@ const PatchPostList = styled.form`
     display: flex;
     flex-direction: column;
     gap: 20px;
-    input {
-        all: unset;
-        border-bottom: 2px solid #eee;
-        font-size: 15px;
-        padding: 5px 0px;
-    }
+`;
+const InPutDiv = styled.input`
+    all: unset;
+    border-bottom: 2px solid #eee;
+    font-size: 15px;
+    padding: 5px 0px;
 `;
 
 const InputListDiv = styled.div`
@@ -172,8 +190,30 @@ const InputListDiv = styled.div`
     gap: 20px;
 `;
 
+const ChipsList = styled.div`
+    display: flex;
+    gap: 10px;
+`;
+
+const ChipsInput = styled.input`
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e1ccec;
+    width: 50px;
+    padding: 5px 15px;
+    border-radius: 32px;
+    font-size: 13px;
+    text-align: center;
+    &:hover {
+        background: #e1ccec8f;
+    }
+`;
+
 const StyledBtn = styled.div`
     margin-top: 10px;
+    margin-left: 15px;
     button {
         all: unset;
         margin: 20px;
