@@ -100,9 +100,13 @@ const StyledForm = styled.form`
     flex-direction: column;
     input {
         all: unset;
-        border-bottom: 2px solid #be9fe1;
+
+        border: 1.3px solid #be9fe1;
+
+        border-radius: 6px;
         font-size: 15px;
-        padding: 5px 0px;
+        padding: 5px 2px;
+        margin-top: 10px;
     }
 `;
 
