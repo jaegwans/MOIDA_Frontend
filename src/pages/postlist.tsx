@@ -11,6 +11,7 @@ interface Post {
     title: string;
     context: string;
     type: string;
+    nickname: string;
     createdDate: string;
 }
 
@@ -87,7 +88,7 @@ const Postist = () => {
                                 <h1>{eachPost.title}</h1>
                                 <AuthorTypeDiv>
                                     <h5>{eachPost.type}</h5>
-                                    <h3>{eachPost.author}</h3>
+                                    <h3>{eachPost.nickname}</h3>
                                 </AuthorTypeDiv>
                                 {/* <p>{eachPost.context}</p> */}
                                 <span>{eachPost.createdDate.slice(2, 10)}</span>

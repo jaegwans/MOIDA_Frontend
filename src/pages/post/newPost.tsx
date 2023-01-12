@@ -1,7 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, ChangeEvent, useState } from "react";
+import { MouseEvent, FormEvent, ChangeEvent, useState } from "react";
 import { json } from "stream/consumers";
 import styled from "styled-components";
 import useToken from "../../hooks/useToken";
@@ -23,13 +23,20 @@ const New = () => {
         // console.log(title);
         setTitle(e.currentTarget.value);
     };
-    const onchangeType = (e: ChangeEvent<HTMLInputElement>) => {
-        // console.log(e.target.value);
-        setType(e.currentTarget.value);
-    };
+    // const onchangeType = (e: ChangeEvent<HTMLInputElement>) => {
+    //     // console.log(e.target.value);
+    //     setType(e.currentTarget.value);
+    // };
     const onchangeContext = (e: ChangeEvent<HTMLInputElement>) => {
         // console.log(e.target.value);
         setContext(e.currentTarget.value);
+    };
+
+    const onClickTypeData = (e: MouseEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log(e.currentTarget.value);
+        setType(e.currentTarget.value);
+        console.log(type);
     };
 
     const errorAlert = () => {
@@ -86,19 +93,39 @@ const New = () => {
             <h2>게시글 작성</h2>
             <NewPostList onSubmit={onSubmitNewPost}>
                 <InputListDiv>
-                    <input
+                    <InPutBox
                         type="text"
                         placeholder="제목"
                         onChange={onchangeTitle}
                         value={title}
                     />
-                    <input
+                    {/* <input
                         type="text"
                         placeholder="태그"
                         onChange={onchangeType}
                         value={type}
-                    />
-                    <input
+                    /> */}
+                    <ChipListDiv>
+                        <ChipInput
+                            type="text"
+                            placeholder="MEAL"
+                            value={"MEAL"}
+                            onClick={onClickTypeData}
+                        />
+                        <ChipInput
+                            type="text"
+                            placeholder="PROJECT"
+                            value={"PROJECT"}
+                            onClick={onClickTypeData}
+                        />
+                        <ChipInput
+                            type="text"
+                            placeholder="STUDY"
+                            value={"STUDY"}
+                            onClick={onClickTypeData}
+                        />
+                    </ChipListDiv>
+                    <InPutBox
                         type="text"
                         placeholder="내용"
                         onChange={onchangeContext}
@@ -106,10 +133,10 @@ const New = () => {
                     />
                 </InputListDiv>
                 <BtnDiv>
-                    <button type="submit">작성하기</button>
                     <Link href={"/postlist"}>
                         <button>뒤로가기</button>
                     </Link>
+                    <button type="submit">작성하기</button>
                 </BtnDiv>
             </NewPostList>
         </NewPost>
@@ -134,23 +161,12 @@ const NewPostList = styled.form`
     display: flex;
     flex-direction: column;
     gap: 20px;
-    input {
+    /* input {
         all: unset;
         border-bottom: 2px solid #eee;
         font-size: 15px;
         padding: 5px 0px;
-    }
-    input:nth-child(2) {
-        display: inline-block;
-        padding: 0 25px;
-        height: 50px;
-        font-size: 16px;
-        line-height: 50px;
-        border-radius: 25px;
-        background-color: #f1f1f1;
-    }
-    input:nth-child(3) {
-    }
+    } */
 `;
 
 const InputListDiv = styled.div`
@@ -159,8 +175,37 @@ const InputListDiv = styled.div`
     gap: 20px;
 `;
 
+const InPutBox = styled.input`
+    all: unset;
+    border-bottom: 2px solid #eee;
+    font-size: 15px;
+    padding: 5px 0px;
+`;
+
+const ChipListDiv = styled.div`
+    display: flex;
+    gap: 10px;
+`;
+
+const ChipInput = styled.input`
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e1ccec;
+    width: 50px;
+    padding: 5px 15px;
+    border-radius: 32px;
+    font-size: 13px;
+    text-align: center;
+    &:hover {
+        background: #e1ccec8f;
+    }
+`;
+
 const BtnDiv = styled.div`
     margin-top: 10px;
+    margin-left: 15px;
     button {
         all: unset;
         margin: 20px;
