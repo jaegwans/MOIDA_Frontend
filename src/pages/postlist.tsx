@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useEffect, useState, MouseEvent } from "react";
-import styled from "styled-components";
-import useToken from "../hooks/useToken";
-import Image from "next/image";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useEffect, useState, MouseEvent } from 'react';
+import styled from 'styled-components';
+import useToken from '../hooks/useToken';
+import Image from 'next/image';
 
 interface Post {
     id: string;
@@ -28,13 +28,13 @@ const Postist = () => {
         // async await을 써도 되는데 router에서 제공하는 ready를 사용
         // console.log(fullToken);
         // console.log(ready);
-        // ready 가 true일때    
+        // ready 가 true일때
         if (ready) {
             const getPostList = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get("/post/list", {
+                    .get('/post/list', {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -52,7 +52,7 @@ const Postist = () => {
     }, [ready]);
 
     const newPostRouter = () => {
-        router.push("/post/new");
+        router.push('/post/new');
     };
 
     // MouseEvent를 사용하지않고 편법으로 하는 방법이 있었네요~
@@ -66,8 +66,8 @@ const Postist = () => {
         <ListMain>
             <ImgDiv>
                 <Image
-                    alt={"moidaLogo"}
-                    src={"/moida.png"}
+                    alt={'moidaLogo'}
+                    src={'/moida.png'}
                     width={290}
                     height={80}
                 ></Image>
@@ -154,7 +154,6 @@ const CardList = styled.div`
     gap: 20px;
 
     width: 1000px;
-    
 `;
 
 const CardDiv = styled.div`
