@@ -38,7 +38,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/type/project', {
+                    .get('/post/type/study', {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
