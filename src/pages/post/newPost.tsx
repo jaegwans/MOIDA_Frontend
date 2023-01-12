@@ -39,6 +39,9 @@ const New = () => {
         if (type.length == 0) {
             return alert("태그를 입력해 주세요");
         }
+        if (type !== "PROJECT" || "MEAL" || "STUDY") {
+            return alert("태그를 올바르게 입력해 주세요");
+        }
         if (context.length == 0) {
             return alert("내용을 입력해 주세요");
         }

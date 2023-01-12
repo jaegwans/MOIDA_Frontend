@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import styled from 'styled-components';
-import Comments from '../../../components/Comments';
-import useUser from '../../../libs/useUser';
+import React, { useEffect, useRef, useState, MouseEvent } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import styled from "styled-components";
+import Comments from "../../../components/Comments";
+import useUser from "../../../libs/useUser";
 
 interface IPost {
     id: string;
@@ -24,7 +24,7 @@ const Detail = () => {
     const [post, setPost] = useState<IPost | never>();
 
     const onClickDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-        const TOKEN = localStorage.getItem('accessToken');
+        const TOKEN = localStorage.getItem("accessToken");
         axios
             .delete(`/post/${id}`, {
                 headers: {
@@ -32,15 +32,20 @@ const Detail = () => {
                 },
             })
             .then(() => {
-                router.push('/');
+                router.push("/");
             })
             .catch((e) => console.log(e));
+    };
+
+    const onClichPatchRouter = (e: MouseEvent<HTMLDivElement>) => {
+        // console.log(`/post/editpost/${id}`);
+        router.push(`/post/editpost/${id}`);
     };
 
     useEffect(() => {
         console.log(ready);
         const getPost = () => {
-            const TOKEN = localStorage.getItem('accessToken');
+            const TOKEN = localStorage.getItem("accessToken");
 
             axios
                 .get(`/post/${id}`, {
@@ -51,14 +56,12 @@ const Detail = () => {
                 .then((data) => {
                     console.log(TOKEN);
                     setPost(data.data);
-
-                    
                 })
                 .catch((e) => {
-                    alert('게시글 조회 실패');
+                    alert("게시글 조회 실패");
                     if (TOKEN === null) {
-                        router.push('/signIn');
-                        alert('로그인 후 게시글 조회가 가능합니다.');
+                        router.push("/signIn");
+                        alert("로그인 후 게시글 조회가 가능합니다.");
                     }
                     console.log(TOKEN);
                     console.log(e);
@@ -80,11 +83,19 @@ const Detail = () => {
                             {user?.username === post.author ? (
                                 <div className="postHeader">
                                     <h1>{post.title}</h1>
-                                    <div onClick={onClickDelete}>삭제</div>
+                                    <div>
+                                        <div onClick={onClichPatchRouter}>
+                                            수정
+                                        </div>
+                                        <div onClick={onClickDelete}>삭제</div>
+                                    </div>
                                 </div>
                             ) : (
                                 <h1>{post.title}</h1>
                             )}
+                            <div>
+                                ghfflashfd
+                            </div>
                             <div>
                                 <div>
                                     <b>{post.author}</b>
