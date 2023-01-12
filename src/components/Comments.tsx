@@ -417,12 +417,12 @@ const StyledCommentsBox = styled.div`
         align-self: flex-end;
         margin-right: 0%;
         color: white;
-        background-color: #be9fe1;
+        background-color: #9f6ed8;
         padding: 6px 15px;
         border-radius: 3px;
         font-size: 1rem;
         &:hover {
-            background-color: #c8b5de;
+            background-color: #be9fe1;
         }
         @media screen and (max-width: 768px) {
             font-size: 1.2rem;
