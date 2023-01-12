@@ -85,7 +85,6 @@ const Postist = () => {
     return (
         <ListMain>
             <ImgDiv>
-                <div></div>
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
@@ -108,7 +107,7 @@ const Postist = () => {
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
 
-            <div>
+            <TotlaCard>
                 {posts !== undefined ? (
                     <CardList>
                         {posts.map((eachPost) => (
@@ -129,7 +128,7 @@ const Postist = () => {
                 ) : (
                     <p>Loading...</p>
                 )}
-            </div>
+            </TotlaCard>
         </ListMain>
     );
 };
@@ -145,7 +144,7 @@ const ImgDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     width: 100%;
     .status {
         cursor: pointer;
@@ -160,7 +159,6 @@ const TopDiv = styled.div`
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
-
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid rgba(190, 159, 225, 10);
@@ -177,28 +175,34 @@ const PostBtnDiv = styled.div`
     padding: 10px;
     width: 100px;
     justify-content: center;
-
     border-radius: 5px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
 `;
 
+const TotlaCard = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+
+`;
+
 const CardList = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
-
     width: 1000px;
 `;
 
 const CardDiv = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
     padding: 20px;
     gap: 10px;
-
-    width: 250px;
-
+    width: 280px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
@@ -206,14 +210,11 @@ const CardDiv = styled.div`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
         font-size: 26px;
-
         padding-bottom: 10px;
         margin-bottom: 20px;
         border-bottom: 2px solid rgba(190, 159, 225, 10);
     }
-
     span {
         font-size: 13px;
         text-align: end;
@@ -224,7 +225,6 @@ const AuthorTypeDiv = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-
     h5 {
         background: rgba(231, 211, 255, 10);
         padding: 5px 15px; //왼 위 오 아래
