@@ -12,6 +12,7 @@ interface IComment {
     context: string;
     parentCommentId: number | null;
     childComments: IComment[] | null;
+    createdDate: string;
 }
 interface IUser {
     username: string;
@@ -83,6 +84,7 @@ const RepleCommnets = (props: {
                     </div>
                 ) : null}
             </div>
+            <StyledDate>{data.createdDate.substring(2, 10)}</StyledDate>
             <div className="context">{data.context}</div>
             <div className="reple">
                 {openEdit ? (
@@ -208,6 +210,7 @@ const Comment = (props: {
                     </div>
                 ) : null}
             </div>
+            <StyledDate>{data.createdDate.substring(2, 10)}</StyledDate>
             <div className="context">{data.context}</div>
 
             <div className="reple">
@@ -417,12 +420,12 @@ const StyledCommentsBox = styled.div`
         align-self: flex-end;
         margin-right: 0%;
         color: white;
-        background-color: #12b886;
+        background-color: #9f6ed8;
         padding: 6px 15px;
         border-radius: 3px;
         font-size: 1rem;
         &:hover {
-            background-color: #3dc59c;
+            background-color: #be9fe1;
         }
         @media screen and (max-width: 768px) {
             font-size: 1.2rem;
@@ -472,7 +475,10 @@ const StyledInputBox = styled.form`
 const StyledComments = styled.div`
     width: 100%;
     .greenButton {
-        color: #12b886;
+        color: #be9fe1;
         cursor: pointer;
     }
+`;
+const StyledDate = styled.div`
+    color: gray;
 `;

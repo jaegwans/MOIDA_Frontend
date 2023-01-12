@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface IUser {
+    comments: any;
+    username: string;
+    posts: any;
+    nickname: string;
+}
+
 const useUser = () => {
-    const [user, setUser] = useState<{ username: string } | undefined>();
+    const [user, setUser] = useState<IUser | undefined>();
 
     useEffect(() => {
         axios

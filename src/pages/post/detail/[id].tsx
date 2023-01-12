@@ -11,6 +11,7 @@ interface IPost {
     title: string;
     context: string;
     type: string;
+    createdDate: string;
 }
 
 const Detail = () => {
@@ -89,6 +90,9 @@ const Detail = () => {
                                     <b>{post.author}</b>
                                 </div>
                                 <StyledChips>{post.type}</StyledChips>
+                                <StyledDate>
+                                    {post.createdDate.substring(2, 10)}
+                                </StyledDate>
                             </div>
                         </StyledInfo>
                         <StyledContext>{post.context}</StyledContext>
@@ -145,6 +149,9 @@ const StyledInfo = styled.div`
         gap: 10px;
     }
 `;
+const StyledDate = styled.div`
+    color: gray;
+`;
 const StyledContext = styled.div`
     margin-top: 30px;
     margin-bottom: 60px;
@@ -155,12 +162,12 @@ const StyledChips = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #e0e0e0;
+    background: #e1ccec;
     padding: 0 12px;
     border-radius: 32px;
     font-size: 13px;
     &:hover {
-        background: #ccc;
+        background: #e1ccec8f;
     }
 `;
 const StyledCommentsBox = styled.div``;
