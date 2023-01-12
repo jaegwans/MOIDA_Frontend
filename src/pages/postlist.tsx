@@ -1,12 +1,12 @@
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useEffect, useState, MouseEvent } from 'react';
-import styled from 'styled-components';
-import useToken from '../hooks/useToken';
-import Image from 'next/image';
-import Link from 'next/link';
-import Navigator from '../components/Navigator';
-import MyPage from './mypage';
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState, MouseEvent } from "react";
+import styled from "styled-components";
+import useToken from "../hooks/useToken";
+import Image from "next/image";
+import Link from "next/link";
+import Navigator from "../components/Navigator";
+import MyPage from "./mypage";
 
 interface Post {
     id: string;
@@ -36,10 +36,10 @@ const Postist = () => {
         // ready 가 true일때
         if (ready) {
             const getPostList = () => {
-                const TOKEN = localStorage.getItem('accessToken');
+                const TOKEN = localStorage.getItem("accessToken");
 
                 axios
-                    .get('/post/list', {
+                    .get("/post/list", {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -53,7 +53,7 @@ const Postist = () => {
                     });
             };
             getPostList();
-            if (localStorage.getItem('accessToken') === null) {
+            if (localStorage.getItem("accessToken") === null) {
                 setMypage(false);
             } else {
                 setMypage(true);
@@ -62,20 +62,20 @@ const Postist = () => {
     }, [ready]);
 
     const newPostRouter = () => {
-        if (localStorage.getItem('accessToken') === null) {
-            alert('로그인 후 이용하세요.');
-            router.push('/signIn');
+        if (localStorage.getItem("accessToken") === null) {
+            alert("로그인 후 이용하세요.");
+            router.push("/signIn");
         } else {
-            router.push('/post/new');
+            router.push("/post/new");
         }
     };
 
     // MouseEvent를 사용하지않고 편법으로 하는 방법이 있었네요~
 
     const commentRouter = (e: String) => {
-        if (localStorage.getItem('accessToken') === null) {
-            alert('로그인 후 이용하세요.');
-            router.push('/signIn');
+        if (localStorage.getItem("accessToken") === null) {
+            alert("로그인 후 이용하세요.");
+            router.push("/signIn");
         } else {
             console.log(e);
             router.push(`/post/detail/${e}`);
@@ -83,54 +83,59 @@ const Postist = () => {
     };
 
     return (
-        <ListMain>
+        <div>
+            
+            <ListMain>
             <ImgDiv>
-                <div></div>
-                <Image
-                    alt={'moidaLogo'}
-                    src={'/Group 1.svg'}
-                    width={290}
-                    height={80}
-                ></Image>
-                <div className="status">
-                    {mypage ? (
-                        <div onClick={() => router.push('/mypage')}>
-                            마이페이지
-                        </div>
+                    <Image
+                        alt={"moidaLogo"}
+                        src={"/Group 1.svg"}
+                        width={290}
+                        height={80}
+                    ></Image>
+                    <div className="status">
+                        {mypage ? (
+                            <div onClick={() => router.push("/mypage")}>
+                                마이페이지
+                            </div>
+                        ) : (
+                            <div onClick={() => router.push("/signIn")}>
+                                로그인
+                            </div>
+                        )}
+                    </div>
+                </ImgDiv>
+                <TopDiv>
+                    <Navigator pick="postlist" />
+                    <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
+                </TopDiv>
+
+                <div>
+                    {posts !== undefined ? (
+                        <CardList>
+                            {posts.map((eachPost) => (
+                                <CardDiv
+                                    onClick={() => commentRouter(eachPost.id)}
+                                    key={eachPost.id}
+                                >
+                                    <h1>{eachPost.title}</h1>
+                                    <AuthorTypeDiv>
+                                        <h5>{eachPost.type}</h5>
+                                        <h3>{eachPost.nickname}</h3>
+                                    </AuthorTypeDiv>
+                                    {/* <p>{eachPost.context}</p> */}
+                                    <span>
+                                        {eachPost.createdDate.slice(2, 10)}
+                                    </span>
+                                </CardDiv>
+                            ))}
+                        </CardList>
                     ) : (
-                        <div onClick={() => router.push('/signIn')}>로그인</div>
+                        <p>Loading...</p>
                     )}
                 </div>
-            </ImgDiv>
-
-            <TopDiv>
-                <Navigator pick="postlist" />
-                <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
-            </TopDiv>
-
-            <div>
-                {posts !== undefined ? (
-                    <CardList>
-                        {posts.map((eachPost) => (
-                            <CardDiv
-                                onClick={() => commentRouter(eachPost.id)}
-                                key={eachPost.id}
-                            >
-                                <h1>{eachPost.title}</h1>
-                                <AuthorTypeDiv>
-                                    <h5>{eachPost.type}</h5>
-                                    <h3>{eachPost.nickname}</h3>
-                                </AuthorTypeDiv>
-                                {/* <p>{eachPost.context}</p> */}
-                                <span>{eachPost.createdDate.slice(2, 10)}</span>
-                            </CardDiv>
-                        ))}
-                    </CardList>
-                ) : (
-                    <p>Loading...</p>
-                )}
-            </div>
-        </ListMain>
+            </ListMain>
+        </div>
     );
 };
 
@@ -145,7 +150,6 @@ const ImgDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
     width: 100%;
     .status {
         cursor: pointer;
