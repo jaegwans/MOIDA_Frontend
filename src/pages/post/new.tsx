@@ -1,13 +1,14 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { FormEvent, ChangeEvent, useState } from "react";
+import { json } from "stream/consumers";
 import styled from "styled-components";
 import useToken from "../../hooks/useToken";
 
 const New = () => {
     //post 헤더에 들어갈 토큰
-    const { fullToken } = useToken();
+    // const { fullToken } = useToken();
     // 게시글 작성 후 list로 넘겨줄 라우터
     const router = useRouter();
     // 타이틀
@@ -17,16 +18,18 @@ const New = () => {
     // 글 내용
     const [context, setContext] = useState<string>("");
 
-    console.log(fullToken);
-
     const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
+        // console.log(e.target.value);
+        // console.log(title);
+        setTitle(e.currentTarget.value);
     };
     const onchangeType = (e: ChangeEvent<HTMLInputElement>) => {
-        setType(e.target.value);
+        // console.log(e.target.value);
+        setType(e.currentTarget.value);
     };
     const onchangeContext = (e: ChangeEvent<HTMLInputElement>) => {
-        setContext(e.target.value);
+        // console.log(e.target.value);
+        setContext(e.currentTarget.value);
     };
 
     const errorAlert = () => {
@@ -41,25 +44,29 @@ const New = () => {
         }
     };
 
-    const onSubmitNewPost = (e: ChangeEvent<HTMLFormElement>) => {
+    const onSubmitNewPost = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const TOKEN = localStorage.getItem("accessToken");
+        // console.log(data.title);
+        // console.log(data.type);
+        // console.log(data.context);
         axios
-            .post(
-                "/post/new",
-                {
+            .post("/post/new", {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                    "Content-Type": `application/json`,
+                },
+                body: {
                     title: title,
                     type: type,
                     context: context,
                 },
-                {
-                    headers: {
-                        Authorization: fullToken,
-                    },
-                }
-            )
+            })
             .then((res) => {
-                router.push("/post/list");
+                console.log(res.data);
+
+                router.push("/postlist");
                 alert("작성을 성공했습니다");
             })
             .catch((error) => {
@@ -94,7 +101,7 @@ const New = () => {
                 </InputListDiv>
                 <BtnDiv>
                     <button type="submit">작성하기</button>
-                    <Link href={"/post/list"}>
+                    <Link href={"/postlist"}>
                         <button>뒤로가기</button>
                     </Link>
                 </BtnDiv>

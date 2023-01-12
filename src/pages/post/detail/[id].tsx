@@ -51,6 +51,8 @@ const Detail = () => {
                 .then((data) => {
                     console.log(TOKEN);
                     setPost(data.data);
+
+                    
                 })
                 .catch((e) => {
                     alert('게시글 조회 실패');
@@ -70,6 +72,7 @@ const Detail = () => {
     //"id":3,"author":"test01","title":"third post!","type":"team_project","context":"this is context of third post in MOIDA!"
     return (
         <div>
+            {/* <p>{JSON.stringify(post)}</p> */}
             {post !== undefined ? (
                 <StyledDetail>
                     <div>
