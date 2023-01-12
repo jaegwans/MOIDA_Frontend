@@ -1,7 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { FormEvent, ChangeEvent, useState } from "react";
 import { json } from "stream/consumers";
 import styled from "styled-components";
 import useToken from "../../hooks/useToken";
@@ -19,18 +19,17 @@ const New = () => {
     const [context, setContext] = useState<string>("");
 
     const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        // console.log(e.target.value);     
+        // console.log(e.target.value);
         // console.log(title);
-        setTitle(e.target.value);
-        
+        setTitle(e.currentTarget.value);
     };
     const onchangeType = (e: ChangeEvent<HTMLInputElement>) => {
         // console.log(e.target.value);
-        setType(e.target.value);
+        setType(e.currentTarget.value);
     };
     const onchangeContext = (e: ChangeEvent<HTMLInputElement>) => {
         // console.log(e.target.value);
-        setContext(e.target.value);
+        setContext(e.currentTarget.value);
     };
 
     const errorAlert = () => {
@@ -45,23 +44,23 @@ const New = () => {
         }
     };
 
-    const onSubmitNewPost = (e: ChangeEvent<HTMLFormElement>) => {
+    const onSubmitNewPost = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const TOKEN = localStorage.getItem("accessToken");
-        let data = {
-            title: title,
-            type: type,
-            context: context,
-        };
         // console.log(data.title);
         // console.log(data.type);
         // console.log(data.context);
         axios
-            .post("/post/new", JSON.stringify(data), {
+            .post("/post/new", {
                 headers: {
                     Authorization: `Bearer ${TOKEN}`,
                     "Content-Type": `application/json`,
+                },
+                body: {
+                    title: title,
+                    type: type,
+                    context: context,
                 },
             })
             .then((res) => {
