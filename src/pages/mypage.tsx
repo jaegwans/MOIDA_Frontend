@@ -29,13 +29,13 @@ const MyPage = () => {
 
             {user?.posts.content.map((data: any) => (
                 <div key={data.id} onClick={onClickPost} id={data.id}>
-                    {data.title} - {data.createdDate}
+                    {data.title} {data.createdDate.substring(2, 10)}
                 </div>
             ))}
             <h3>작성한 댓글</h3>
             {user?.comments.content.map((data: any) => (
                 <div key={data.id} onClick={onClickComment} id={data.postId}>
-                    {data.context}- {data.createdDate}
+                    {data.context} {data.createdDate.substring(2, 10)}
                 </div>
             ))}
         </StyledMyPage>
@@ -55,4 +55,7 @@ const StyledMyPage = styled.div`
     padding: 2rem;
     margin-top: 4rem;
     gap: 1rem;
+    div {
+        cursor: pointer;
+    }
 `;
