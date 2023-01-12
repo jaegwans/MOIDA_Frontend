@@ -52,7 +52,7 @@ const Postist = () => {
     }, [ready]);
 
     const newPostRouter = () => {
-        router.push('/post/new');
+        router.push('/post/newPost');
     };
 
     // MouseEvent를 사용하지않고 편법으로 하는 방법이 있었네요~

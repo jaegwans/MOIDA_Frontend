@@ -35,7 +35,7 @@ const Login = () => {
                     console.log(res.data);
                     localStorage.setItem('accessToken', res.data.accessToken);
 
-          router.push("/post/list");
+          router.push("/postlist");
         })
         .catch((e) => {
           console.log(e);
