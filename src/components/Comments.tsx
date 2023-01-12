@@ -438,6 +438,7 @@ const StyledCommentsBox = styled.div`
 const StyledTextArea = styled.textarea`
     width: 100%;
     margin: 10px;
+    padding: 10px;
     border: 1px solid #f1f3f5;
     min-height: 100px;
     resize: none;
