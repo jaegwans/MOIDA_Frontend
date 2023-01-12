@@ -53,7 +53,7 @@ const Login = () => {
             <div>
                 <Image
                     alt={'moidaLogo'}
-                    src={'/moida.png'}
+                    src={'/Group1.svg'}
                     width={190}
                     height={60}
                 ></Image>
