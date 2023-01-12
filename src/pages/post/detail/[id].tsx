@@ -12,6 +12,7 @@ interface IPost {
     context: string;
     type: string;
     createdDate: string;
+    nickname: string;
 }
 
 const Detail = () => {
@@ -51,8 +52,6 @@ const Detail = () => {
                 .then((data) => {
                     console.log(TOKEN);
                     setPost(data.data);
-
-                    
                 })
                 .catch((e) => {
                     alert('게시글 조회 실패');
@@ -87,7 +86,7 @@ const Detail = () => {
                             )}
                             <div>
                                 <div>
-                                    <b>{post.author}</b>
+                                    <b>{post.nickname}</b>
                                 </div>
                                 <StyledChips>{post.type}</StyledChips>
                                 <StyledDate>
