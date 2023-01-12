@@ -6,7 +6,7 @@ import { json } from "stream/consumers";
 import styled from "styled-components";
 import useToken from "../../hooks/useToken";
 
-const New = () => {
+const NewPost = () => {
     //post 헤더에 들어갈 토큰
     // const { fullToken } = useToken();
     // 게시글 작성 후 list로 넘겨줄 라우터
@@ -52,17 +52,20 @@ const New = () => {
         // console.log(data.type);
         // console.log(data.context);
         axios
-            .post("/post/new", {
-                headers: {
-                    Authorization: `Bearer ${TOKEN}`,
-                    "Content-Type": `application/json`,
-                },
-                body: {
+            .post(
+                "/post/new",
+                {
                     title: title,
                     type: type,
                     context: context,
                 },
-            })
+                {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`,
+                        "Content-Type": `application/json`,
+                    },
+                }
+            )
             .then((res) => {
                 console.log(res.data);
 
@@ -76,7 +79,7 @@ const New = () => {
     };
 
     return (
-        <NewPost>
+        <NewPostDiv>
             <h2>게시글 작성</h2>
             <NewPostList onSubmit={onSubmitNewPost}>
                 <InputListDiv>
@@ -106,13 +109,13 @@ const New = () => {
                     </Link>
                 </BtnDiv>
             </NewPostList>
-        </NewPost>
+        </NewPostDiv>
     );
 };
 
-export default New;
+export default NewPost;
 
-const NewPost = styled.div`
+const NewPostDiv = styled.div`
     width: 300px;
     height: 500px;
     margin-top: 50px;
