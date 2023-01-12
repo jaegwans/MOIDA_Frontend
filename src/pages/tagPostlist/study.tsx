@@ -2,10 +2,9 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState, MouseEvent } from 'react';
 import styled from 'styled-components';
-import useToken from '../hooks/useToken';
+import useToken from '../../hooks/useToken';
 import Image from 'next/image';
-import Link from 'next/link';
-import Navigator from '../components/navigator';
+import Navigator from '../../components/navigator';
 
 interface Post {
     id: string;
@@ -36,7 +35,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/list', {
+                    .get('/post/type/study', {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -74,12 +73,11 @@ const Postist = () => {
                     height={80}
                 ></Image>
             </ImgDiv>
-
             <TopDiv>
-                <PostLostH1>post list</PostLostH1>
+                <PostLostH1>Study list</PostLostH1>
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
-            <Navigator pick="postlist" />
+            <Navigator pick="study" />
             <div>
                 {posts !== undefined ? (
                     <CardList>
@@ -110,6 +108,7 @@ export default Postist;
 const ListMain = styled.div`
     display: flex;
     flex-direction: column;
+
     margin: 30px;
 `;
 

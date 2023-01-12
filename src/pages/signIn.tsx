@@ -35,10 +35,10 @@ const Login = () => {
                     console.log(res.data);
                     localStorage.setItem('accessToken', res.data.accessToken);
 
-          router.push("/post/list");
-        })
-        .catch((e) => {
-          console.log(e);
+                    router.push('/postlist');
+                })
+                .catch((e) => {
+                    console.log(e);
 
                     alert(
                         '아이디나 비밀번호가 틀립니다. Err:' + e.response.status
