@@ -66,7 +66,7 @@ const Postist = () => {
             alert('로그인 후 이용하세요.');
             router.push('/signIn');
         } else {
-            router.push('/post/new');
+            router.push('/newPost');
         }
     };
 
