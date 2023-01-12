@@ -35,11 +35,10 @@ const Login = () => {
                     console.log(res.data);
                     localStorage.setItem('accessToken', res.data.accessToken);
 
-                    //렌 테스터기 ,렌선 긴거, 케이블,커터
-                    router.push('/post/list');
-                })
-                .catch((e) => {
-                    console.log(e);
+          router.push("/post/list");
+        })
+        .catch((e) => {
+          console.log(e);
 
                     alert(
                         '아이디나 비밀번호가 틀립니다. Err:' + e.response.status

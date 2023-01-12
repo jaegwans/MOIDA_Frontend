@@ -18,7 +18,7 @@ export default function Home() {
             console.log(localStorage.getItem('accesss'));
             router.push('/signIn');
         } else {
-            router.push('/post/list');
+            router.push('/postlist');
         }
     }, []);
 
