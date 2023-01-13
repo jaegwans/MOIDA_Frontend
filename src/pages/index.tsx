@@ -14,7 +14,7 @@ export default function Home() {
     useEffect(() => {
         setAToken(localStorage.getItem('accessToken'));
         console.log(aToken);
-        router.push('/postlist');
+        router.push('/signIn');
         // if (localStorage.getItem('accessToken') === null) {
         //     console.log(localStorage.getItem('accesss'));
         //     router.push('/signIn');
