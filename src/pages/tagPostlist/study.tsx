@@ -101,6 +101,7 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data);
                         setPostsInfo(data.data);
+                        setLast(data.data.last);
                     })
                     .catch((e) => {
                         alert(e);

@@ -66,6 +66,8 @@ const Postist = () => {
                 console.log(data.data);
                 setPostsInfo(data.data);
                 setLast(data.data.last);
+                console.log(data.data.last);
+                console.log(last);
             })
             .catch((e) => {
                 alert(e);
@@ -107,6 +109,7 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data);
                         setPostsInfo(data.data);
+                        setLast(data.data.last);
                     })
                     .catch((e) => {
                         alert(e);
