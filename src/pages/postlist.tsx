@@ -17,6 +17,11 @@ interface Post {
     nickname: string;
     createdDate: string;
 }
+interface PostInfo {
+    last: boolean;
+    number: number;
+    content: Post[];
+}
 
 const Postist = () => {
     const router = useRouter();
@@ -29,6 +34,42 @@ const Postist = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [mypage, setMypage] = useState(false);
 
+    const [postsInfo, setPostsInfo] = useState<any>();
+    const [PostListNum, setPostListNum] = useState<number>(1);
+    const [last, setLast] = useState(false);
+
+    const onClickPostMore = () => {
+        const TOKEN = localStorage.getItem('accessToken');
+
+        axios
+            .get(`/post/list/${PostListNum + 1}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then((data) => {
+                console.log(data.data.content);
+                setPosts([...posts, ...data.data.content]);
+            })
+            .catch((e) => {
+                alert(e);
+            });
+        axios
+            .get(`/post/list/${PostListNum + 1}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then((data) => {
+                console.log(data.data);
+                setPostsInfo(data.data);
+                setLast(data.data.last);
+            })
+            .catch((e) => {
+                alert(e);
+            });
+    };
+
     useEffect(() => {
         // async await을 써도 되는데 router에서 제공하는 ready를 사용
         // console.log(fullToken);
@@ -39,7 +80,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/list', {
+                    .get(`/post/list/1`, {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -47,6 +88,19 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data.content);
                         setPosts(data.data.content);
+                    })
+                    .catch((e) => {
+                        alert(e);
+                    });
+                axios
+                    .get(`/post/list/1`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    })
+                    .then((data) => {
+                        console.log(data.data);
+                        setPostsInfo(data.data);
                     })
                     .catch((e) => {
                         alert(e);
@@ -109,22 +163,31 @@ const Postist = () => {
 
             <TotlaCard>
                 {posts !== undefined ? (
-                    <CardList>
-                        {posts.map((eachPost) => (
-                            <CardDiv
-                                onClick={() => commentRouter(eachPost.id)}
-                                key={eachPost.id}
-                            >
-                                <h1>{eachPost.title}</h1>
-                                <AuthorTypeDiv>
-                                    <h5>{eachPost.type}</h5>
-                                    <h3>{eachPost.nickname}</h3>
-                                </AuthorTypeDiv>
-                                {/* <p>{eachPost.context}</p> */}
-                                <span>{eachPost.createdDate.slice(2, 10)}</span>
-                            </CardDiv>
-                        ))}
-                    </CardList>
+                    <>
+                        <CardList>
+                            {posts.map((eachPost) => (
+                                <CardDiv
+                                    onClick={() => commentRouter(eachPost.id)}
+                                    key={eachPost.id}
+                                >
+                                    <h1>{eachPost.title}</h1>
+                                    <AuthorTypeDiv>
+                                        <h5>{eachPost.type}</h5>
+                                        <h3>{eachPost.nickname}</h3>
+                                    </AuthorTypeDiv>
+                                    {/* <p>{eachPost.context}</p> */}
+                                    <span>
+                                        {eachPost.createdDate.slice(2, 10)}
+                                    </span>
+                                </CardDiv>
+                            ))}
+                        </CardList>
+                        {!last ? (
+                            <div className="postmore" onClick={onClickPostMore}>
+                                더보기
+                            </div>
+                        ) : null}
+                    </>
                 ) : (
                     <p>Loading...</p>
                 )}
@@ -181,10 +244,24 @@ const PostBtnDiv = styled.div`
 `;
 
 const TotlaCard = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .postmore {
+        display: flex;
+        padding: 10px 0px;
+        width: 100%;
+        height: 20px;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
+            rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
+        font-size: 15px;
+        cursor: pointer;
+    }
 `;
 
 const CardList = styled.div`

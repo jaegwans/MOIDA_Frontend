@@ -17,6 +17,11 @@ interface Post {
     nickname: string;
     createdDate: string;
 }
+interface PostInfo {
+    last: boolean;
+    number: number;
+    content: Post[];
+}
 
 const Postist = () => {
     const router = useRouter();
@@ -29,6 +34,42 @@ const Postist = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [mypage, setMypage] = useState(false);
 
+    const [postsInfo, setPostsInfo] = useState<any>();
+    const [PostListNum, setPostListNum] = useState<number>(1);
+    const [last, setLast] = useState(false);
+
+    const onClickPostMore = () => {
+        const TOKEN = localStorage.getItem('accessToken');
+
+        axios
+            .get(`/post/type/meal/${PostListNum + 1}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then((data) => {
+                console.log(data.data.content);
+                setPosts([...posts, ...data.data.content]);
+            })
+            .catch((e) => {
+                alert(e);
+            });
+        axios
+            .get(`/post/type/meal/${PostListNum + 1}`, {
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                },
+            })
+            .then((data) => {
+                console.log(data.data);
+                setPostsInfo(data.data);
+                setLast(data.data.last);
+            })
+            .catch((e) => {
+                alert(e);
+            });
+    };
+
     useEffect(() => {
         // async await을 써도 되는데 router에서 제공하는 ready를 사용
         // console.log(fullToken);
@@ -39,7 +80,7 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get('/post/type/meal', {
+                    .get(`/post/type/meal/1`, {
                         headers: {
                             Authorization: `Bearer ${TOKEN}`,
                         },
@@ -47,6 +88,19 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data.content);
                         setPosts(data.data.content);
+                    })
+                    .catch((e) => {
+                        alert(e);
+                    });
+                axios
+                    .get(`/post/type/meal/1`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    })
+                    .then((data) => {
+                        console.log(data.data);
+                        setPostsInfo(data.data);
                     })
                     .catch((e) => {
                         alert(e);
@@ -85,7 +139,6 @@ const Postist = () => {
     return (
         <ListMain>
             <ImgDiv>
-                <div></div>
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
@@ -108,28 +161,37 @@ const Postist = () => {
                 <PostBtnDiv onClick={newPostRouter}>게시글 작성</PostBtnDiv>
             </TopDiv>
 
-            <div>
+            <TotlaCard>
                 {posts !== undefined ? (
-                    <CardList>
-                        {posts.map((eachPost) => (
-                            <CardDiv
-                                onClick={() => commentRouter(eachPost.id)}
-                                key={eachPost.id}
-                            >
-                                <h1>{eachPost.title}</h1>
-                                <AuthorTypeDiv>
-                                    <h5>{eachPost.type}</h5>
-                                    <h3>{eachPost.nickname}</h3>
-                                </AuthorTypeDiv>
-                                {/* <p>{eachPost.context}</p> */}
-                                <span>{eachPost.createdDate.slice(2, 10)}</span>
-                            </CardDiv>
-                        ))}
-                    </CardList>
+                    <>
+                        <CardList>
+                            {posts.map((eachPost) => (
+                                <CardDiv
+                                    onClick={() => commentRouter(eachPost.id)}
+                                    key={eachPost.id}
+                                >
+                                    <h1>{eachPost.title}</h1>
+                                    <AuthorTypeDiv>
+                                        <h5>{eachPost.type}</h5>
+                                        <h3>{eachPost.nickname}</h3>
+                                    </AuthorTypeDiv>
+                                    {/* <p>{eachPost.context}</p> */}
+                                    <span>
+                                        {eachPost.createdDate.slice(2, 10)}
+                                    </span>
+                                </CardDiv>
+                            ))}
+                        </CardList>
+                        {!last ? (
+                            <div className="postmore" onClick={onClickPostMore}>
+                                더보기
+                            </div>
+                        ) : null}
+                    </>
                 ) : (
                     <p>Loading...</p>
                 )}
-            </div>
+            </TotlaCard>
         </ListMain>
     );
 };
@@ -145,7 +207,7 @@ const ImgDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     width: 100%;
     .status {
         cursor: pointer;
@@ -160,7 +222,6 @@ const TopDiv = styled.div`
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
-
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 2px solid rgba(190, 159, 225, 10);
@@ -177,28 +238,48 @@ const PostBtnDiv = styled.div`
     padding: 10px;
     width: 100px;
     justify-content: center;
-
     border-radius: 5px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
 `;
 
+const TotlaCard = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .postmore {
+        display: flex;
+        padding: 10px 0px;
+        width: 100%;
+        height: 20px;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
+            rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+`;
+
 const CardList = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
-
     width: 1000px;
 `;
 
 const CardDiv = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
     padding: 20px;
     gap: 10px;
-
-    width: 250px;
-
+    width: 280px;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
@@ -206,14 +287,11 @@ const CardDiv = styled.div`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
         font-size: 26px;
-
         padding-bottom: 10px;
         margin-bottom: 20px;
         border-bottom: 2px solid rgba(190, 159, 225, 10);
     }
-
     span {
         font-size: 13px;
         text-align: end;
@@ -224,7 +302,6 @@ const AuthorTypeDiv = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-
     h5 {
         background: rgba(231, 211, 255, 10);
         padding: 5px 15px; //왼 위 오 아래
