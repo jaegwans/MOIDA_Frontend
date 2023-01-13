@@ -138,6 +138,16 @@ const RegisterList = styled.form`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    input {
+        all: unset;
+
+        border: 1.3px solid #be9fe1;
+
+        border-radius: 6px;
+        font-size: 15px;
+        padding: 5px 5px;
+        margin-top: 10px;
+    }
 `;
 
 const ErrorMessageP = styled.p`

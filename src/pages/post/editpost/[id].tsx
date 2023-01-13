@@ -1,10 +1,10 @@
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, MouseEvent, useState, ChangeEvent, FormEvent } from "react";
-import styled from "styled-components";
-import useUser from "../../../libs/useUser";
-import Image from "next/image";
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, MouseEvent, useState, ChangeEvent, FormEvent } from 'react';
+import styled from 'styled-components';
+import useUser from '../../../libs/useUser';
+import Image from 'next/image';
 
 interface PostData {
     id: number;
@@ -22,24 +22,24 @@ const PostPatch = () => {
 
     const [patchData, setPatchData] = useState<PostData>();
 
-    const [patchTitle, setPatchTitle] = useState<string>("");
+    const [patchTitle, setPatchTitle] = useState<string>('');
 
-    const [patchType, setPatchType] = useState<string>("");
+    const [patchType, setPatchType] = useState<string>('');
 
-    const [patchContext, setPatchContext] = useState<string>("");
+    const [patchContext, setPatchContext] = useState<string>('');
 
     const errorAlert = () => {
         if (patchTitle.length == 0) {
-            return alert("제목을 입력해 주세요");
+            return alert('제목을 입력해 주세요');
         }
         if (patchType.length == 0) {
-            return alert("태그를 입력해 주세요");
+            return alert('태그를 입력해 주세요');
         }
-        if (patchType !== "PROJECT" || "MEAL" || "STUDY") {
-            return alert("태그를 올바르게 입력해 주세요");
+        if (patchType !== 'PROJECT' || 'MEAL' || 'STUDY') {
+            return alert('태그를 올바르게 입력해 주세요');
         }
         if (patchContext.length == 0) {
-            return alert("내용을 입력해 주세요");
+            return alert('내용을 입력해 주세요');
         }
     };
 
@@ -48,7 +48,7 @@ const PostPatch = () => {
             console.log(patchData?.title);
 
             const getPostData = () => {
-                const TOKEN = localStorage.getItem("accessToken");
+                const TOKEN = localStorage.getItem('accessToken');
                 axios
                     .get(`/post/edit/${id}`, {
                         headers: {
@@ -86,7 +86,7 @@ const PostPatch = () => {
     const onClickPatch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const TOKEN = localStorage.getItem("accessToken");
+        const TOKEN = localStorage.getItem('accessToken');
         axios
             .patch(
                 `/post/edit/${id}`,
@@ -114,8 +114,8 @@ const PostPatch = () => {
         <div>
             <StyledTop>
                 <Image
-                    src={"/Group 1.svg"}
-                    alt={"moidaLogd"}
+                    src={'/Group 1.svg'}
+                    alt={'moidaLogd'}
                     width={290}
                     height={80}
                 ></Image>
@@ -135,19 +135,19 @@ const PostPatch = () => {
                             <ChipsInput
                                 type="text"
                                 placeholder="MEAL"
-                                value={"MEAL"}
+                                value={'MEAL'}
                                 onClick={onClickTypeData}
                             />
                             <ChipsInput
                                 type="text"
                                 placeholder="PROJECT"
-                                value={"PROJECT"}
+                                value={'PROJECT'}
                                 onClick={onClickTypeData}
                             />
                             <ChipsInput
                                 type="text"
                                 placeholder="STUDY"
-                                value={"STUDY"}
+                                value={'STUDY'}
                                 onClick={onClickTypeData}
                             />
                         </ChipsList>
@@ -180,7 +180,7 @@ const StyledTop = styled.div`
     margin-top: 40px;
     margin-bottom: 20px;
 
-    width: 80vw;
+    width: 75vw;
 `;
 
 const PatchPost = styled.div`
