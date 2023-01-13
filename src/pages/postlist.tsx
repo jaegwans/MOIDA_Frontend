@@ -87,7 +87,11 @@ const Postist = () => {
                 const TOKEN = localStorage.getItem('accessToken');
 
                 axios
-                    .get(`/post/list/1`)
+                    .get(`/post/list/1`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    })
                     .then((data) => {
                         console.log(data.data.content);
                         setPosts(data.data.content);
@@ -98,7 +102,11 @@ const Postist = () => {
                         router.push('/signIn');
                     });
                 axios
-                    .get(`/post/list/1`)
+                    .get(`/post/list/1`, {
+                        headers: {
+                            Authorization: `Bearer ${TOKEN}`,
+                        },
+                    })
                     .then((data) => {
                         console.log(data.data);
                         setPostsInfo(data.data);
