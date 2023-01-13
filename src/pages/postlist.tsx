@@ -53,6 +53,8 @@ const Postist = () => {
             })
             .catch((e) => {
                 alert(e);
+                alert('토큰이 만료되었습니다.');
+                router.push('/signIn');
             });
         axios
             .get(`/post/list/${PostListNum + 1}`, {
@@ -67,6 +69,8 @@ const Postist = () => {
             })
             .catch((e) => {
                 alert(e);
+                alert('토큰이 만료되었습니다.');
+                router.push('/signIn');
             });
     };
 
@@ -91,6 +95,8 @@ const Postist = () => {
                     })
                     .catch((e) => {
                         alert(e);
+                        alert('토큰이 만료되었습니다.');
+                        router.push('/signIn');
                     });
                 axios
                     .get(`/post/list/1`, {
@@ -104,6 +110,8 @@ const Postist = () => {
                     })
                     .catch((e) => {
                         alert(e);
+                        alert('토큰이 만료되었습니다.');
+                        router.push('/signIn');
                     });
             };
             getPostList();
