@@ -36,7 +36,7 @@ const Postist = () => {
 
     const [postsInfo, setPostsInfo] = useState<any>();
     const [PostListNum, setPostListNum] = useState<number>(1);
-    const [last, setLast] = useState(false);
+    const [last, setLast] = useState(true);
 
     const onClickPostMore = () => {
         const TOKEN = localStorage.getItem('accessToken');
@@ -101,6 +101,7 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data);
                         setPostsInfo(data.data);
+                        setLast(data.data.last);
                     })
                     .catch((e) => {
                         alert(e);
@@ -142,7 +143,7 @@ const Postist = () => {
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
-                    width={290}
+                    width={114}
                     height={80}
                 ></Image>
                 <div className="status">

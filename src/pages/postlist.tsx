@@ -36,7 +36,7 @@ const Postist = () => {
 
     const [postsInfo, setPostsInfo] = useState<any>();
     const [PostListNum, setPostListNum] = useState<number>(1);
-    const [last, setLast] = useState(false);
+    const [last, setLast] = useState(true);
 
     const onClickPostMore = () => {
         const TOKEN = localStorage.getItem('accessToken');
@@ -53,6 +53,8 @@ const Postist = () => {
             })
             .catch((e) => {
                 alert(e);
+                alert('토큰이 만료되었습니다.');
+                router.push('/signIn');
             });
         axios
             .get(`/post/list/${PostListNum + 1}`, {
@@ -64,9 +66,13 @@ const Postist = () => {
                 console.log(data.data);
                 setPostsInfo(data.data);
                 setLast(data.data.last);
+                console.log(data.data.last);
+                console.log(last);
             })
             .catch((e) => {
                 alert(e);
+                alert('토큰이 만료되었습니다.');
+                router.push('/signIn');
             });
     };
 
@@ -91,6 +97,8 @@ const Postist = () => {
                     })
                     .catch((e) => {
                         alert(e);
+                        alert('토큰이 만료되었습니다.');
+                        router.push('/signIn');
                     });
                 axios
                     .get(`/post/list/1`, {
@@ -101,9 +109,12 @@ const Postist = () => {
                     .then((data) => {
                         console.log(data.data);
                         setPostsInfo(data.data);
+                        setLast(data.data.last);
                     })
                     .catch((e) => {
                         alert(e);
+                        alert('토큰이 만료되었습니다.');
+                        router.push('/signIn');
                     });
             };
             getPostList();
@@ -142,7 +153,7 @@ const Postist = () => {
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
-                    width={290}
+                    width={114}
                     height={80}
                 ></Image>
                 <div className="status">
