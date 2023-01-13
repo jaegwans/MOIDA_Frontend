@@ -281,7 +281,8 @@ const CardDiv = styled.div`
     margin-top: 15px;
     padding: 20px;
     gap: 10px;
-    width: 280px;
+    /* width: 280px; */
+    width: 100%;
     box-shadow: rgba(231, 211, 255, 10) 0px 1px 2px 0px,
         rgba(231, 211, 255, 0.5) 0px 2px 6px 2px;
     h1 {
