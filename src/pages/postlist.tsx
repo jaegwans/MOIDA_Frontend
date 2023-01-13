@@ -36,7 +36,7 @@ const Postist = () => {
 
     const [postsInfo, setPostsInfo] = useState<any>();
     const [PostListNum, setPostListNum] = useState<number>(1);
-    const [last, setLast] = useState(false);
+    const [last, setLast] = useState(true);
 
     const onClickPostMore = () => {
         const TOKEN = localStorage.getItem('accessToken');
