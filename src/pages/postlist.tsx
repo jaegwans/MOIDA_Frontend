@@ -150,7 +150,7 @@ const Postist = () => {
                 <Image
                     alt={'moidaLogo'}
                     src={'/Group 1.svg'}
-                    width={290}
+                    width={114}
                     height={80}
                 ></Image>
                 <div className="status">
