@@ -278,7 +278,7 @@ const TotlaCard = styled.div`
 
 const CardList = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 320px 320px 320px;
     align-items: center;
     justify-content: center;
     gap: 20px;
