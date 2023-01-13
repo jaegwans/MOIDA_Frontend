@@ -50,6 +50,7 @@ const Postist = () => {
             .then((data) => {
                 console.log(data.data.content);
                 setPosts([...posts, ...data.data.content]);
+                setPostListNum(PostListNum + 1);
             })
             .catch((e) => {
                 alert(e);
