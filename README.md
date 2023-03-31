@@ -7,12 +7,6 @@
 
 # <b>Moida</b><p style="font-weight: 100; font-size: 17px">GDSC MINI Project</p>
 
-<a href="#Introduction">Introduction</a> •
-<a href="#getting-started">Getting Started</a> •
-<a href="#Pages">Pages and features</a> •
-<a href="#demo">Demo</a> •
-<a href="#backend-repo">Backend repo</a> •
-
 
 </div>
 
@@ -51,12 +45,12 @@ https://moida-frontend.vercel.app/)**
 Moida의 백엔드 서버가 잠시 닫혀있습니다.
 
 </div>
+
 ![1](https://user-images.githubusercontent.com/50818389/229009138-cf2b7ae1-8bcd-4dca-90fe-e2ea09da8f56.png)
 
 <br />
 
 <div id="Pages">
-## 📖 상세 내용
 
 
 
