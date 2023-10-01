@@ -4,10 +4,11 @@
 <br/><br/><br/><br/><br/>
 
 <div align=center>
+    
 
 # <b>Moida</b><p style="font-weight: 100; font-size: 17px">GDSC MINI Project</p>
 
-
+![image](https://github.com/jaegwans/MOIDA_Frontend/assets/50818389/654f9023-ecd3-4e3f-a90f-c3e5973a029b)
 </div>
 
 <br/><br/><br/><br/><br/>
